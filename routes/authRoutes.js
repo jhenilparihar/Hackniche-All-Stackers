@@ -18,16 +18,6 @@ function authenticateUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { walletId, userOrganization, userRole } = req.body;
-            userRole = userRole || "APPLICANT";
-            if (userRole !== "ADMIN" && userRole !== "APPLICANT") {
-                res.status(400).json({
-                    "actionStatus": "ERR_INVALID_DATA",
-                    "invalidData": [
-                        "userRole"
-                    ]
-                });
-                return;
-            }
             const { rows: existingUserRows } = yield db_1.db.query("SELECT * FROM auth_users WHERE walletid = $1", [walletId]);
             if (existingUserRows.length === 0) {
                 yield db_1.db.query("BEGIN");
@@ -43,26 +33,15 @@ function authenticateUser(req, res) {
                 });
             }
             else {
-                const currentUserData = existingUserRows[0];
-                const { userrole: existingUserRole, userorganization: existingUserOrganization } = currentUserData;
-                if (existingUserRole === userRole && existingUserOrganization === userOrganization) {
-                    res.status(200).json({
-                        "actionStatus": "SUCCESS",
-                        "authData": {
-                            walletId,
-                            userOrganization,
-                            userRole
-                        }
-                    });
-                }
-                else {
-                    res.status(401).json({
-                        "actionStatus": "ERR_INVALID_DATA",
-                        "invalidData": [
-                            "walletId", "userOrganization", "userRole"
-                        ]
-                    });
-                }
+                const { userorganization: userOrganization, userrole: userRole } = existingUserRows[0];
+                res.status(200).json({
+                    "actionStatus": "SUCCESS",
+                    "authData": {
+                        walletId,
+                        userOrganization,
+                        userRole
+                    }
+                });
             }
         }
         catch (err) {

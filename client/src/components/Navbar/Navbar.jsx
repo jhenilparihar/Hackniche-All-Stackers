@@ -19,10 +19,7 @@ class Navbar extends Component {
 
               <div>
                 <div class="navbar-nav">
-                  {this.props.accountAddress ===
-                    "0x41e5226215F536572DDa181e797Deb1878D94e3D" ||
-                  this.props.accountAddress ===
-                    "0xB641B4F1795a4BfA2cC7056E08cFB2b199831248" ? (
+                  {this.props.isAdmin ? (
                     <>
                       <Link to="/dashboard" id="all" class="navbar-link">
                         Dashboard

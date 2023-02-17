@@ -43,19 +43,11 @@ class App extends Component {
       excelFile: null,
       certificateCreated: false,
       certificateType: null,
-      createType: null
+      createType: null,
+      isAdmin: false
     };
 
 
-    /* EDIT THIS */
-    this.adminAddresses = []
-  }
-
-  setOrgAndRole = (org, role) => {
-      this.setState({
-          userOrganization: org,
-          userRole: role
-      })
   }
 
   componentWillMount = async () => {
@@ -165,14 +157,19 @@ const extraCertCount = await EcertoContract.methods
               body: JSON.stringify({
                   walletId: this.state.accountAddress,
                   userOrganization: "DJSCE",
-                  userRole: this.adminAddresses.indexOf(
-                      this.state.accountAddress) === -1 ? "APPLICANT" : "ADMIN"
+                  userRole: "APPLICANT"
               })
           }
       )
 
       if (response.ok) {
           const resJson = await response.json()
+          const {userRole} = resJson.authData
+          if (userRole === "ADMIN"){
+              console.log("ADMIN TRUE")
+              this.setState({isAdmin: true})
+          }
+
       } else {
           console.error("Invalid authentication credentials provided")
       }
@@ -286,9 +283,7 @@ const extraCertCount = await EcertoContract.methods
 
   handleActiveLink = (id) => {
     if (
-      this.state.accountAddress ===
-        "0x41e5226215F536572DDa181e797Deb1878D94e3D" ||
-      this.state.accountAddress === "0xB641B4F1795a4BfA2cC7056E08cFB2b199831248"
+      this.state.isAdmin
     ) {
       document.querySelector("#all").classList.remove("nav-active");
       document.querySelector("#all2").classList.remove("nav-active");
@@ -374,13 +369,13 @@ const extraCertCount = await EcertoContract.methods
                 <Route
                   path="/"
                   element={
-                    <Navbar accountAddress={this.state.accountAddress} />
+                    <Navbar
+                        accountAddress={this.state.accountAddress}
+                        isAdmin={this.state.isAdmin}
+                    />
                   }
                 >
-                  {this.state.accountAddress ===
-                    "0x41e5226215F536572DDa181e797Deb1878D94e3D" ||
-                  this.state.accountAddress ===
-                    "0xB641B4F1795a4BfA2cC7056E08cFB2b199831248" ? (
+                  {this.state.isAdmin ? (
                     <>
                       <Route
                         path="/"
@@ -394,7 +389,6 @@ const extraCertCount = await EcertoContract.methods
                             allCert={this.state.AcademicCertificate}
                             sendEmail={this.sendEmail}
                             handleActiveLink={this.handleActiveLink}
-                            setOrgAndRole={this.setOrgAndRole}
                           />
                         }
                       />

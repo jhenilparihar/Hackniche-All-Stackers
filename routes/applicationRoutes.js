@@ -20,9 +20,9 @@ function createApplication(req, res) {
             const { walletId, applicantName, applicantUniqueId, applicantGroup, applicantEmail, applicantComment, appliedOrganization } = req.body;
             yield db_1.db.query("BEGIN");
             const { rows: creationResultRows } = yield db_1.db.query(`INSERT INTO user_applications
-			(walletid, applicantname, applicantuniqueid, applicantgroup, applicantemail, applicantcomments, appliedorganization)
+			(walletid, applicantname, applicantuniqueid, applicantgroup, applicantemail, applicantcomments, appliedorganization, applicationdate)
 			VALUES
-			($1, $2, $3, $4, $5, $6, $7)
+			($1, $2, $3, $4, $5, $6, $7, NOW())
 			RETURNING applicationid, applicationstatus`, [
                 walletId, applicantName,
                 applicantUniqueId,
@@ -104,6 +104,25 @@ function rejectApplication(req, res) {
         }
     });
 }
+function getApplications(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { organizationId } = req.query;
+            const { rows } = yield db_1.db.query("SELECT * FROM user_applications WHERE appliedorganization = $1", [organizationId]);
+            res.status(200).json({
+                "actionStatus": "SUCCESS",
+                "applicationData": rows
+            });
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).json({
+                "actionStatus": "ERR_INTERNAL_ERROR"
+            });
+        }
+    });
+}
+applicationRouter.get('/', getApplications);
 applicationRouter.post('/', createApplication);
 applicationRouter.post(`/:applicationId/approve`, approveApplication);
 applicationRouter.post(`/:applicationId/reject`, rejectApplication);

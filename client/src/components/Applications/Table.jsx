@@ -4,7 +4,49 @@ import { Add, Edit, Delete, Confirm, Cancel } from "./Svg";
 class Table extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+        applicationData: []
+    }
   }
+
+  fetchApplications = async () => {
+      const response = await fetch(
+          "http://localhost:8080/applications?organizationId=DJSCE"
+      )
+      if (response.ok) {
+          const resData = await response.json()
+          const {applicationData} = resData
+
+          let filteredApplicationData = applicationData.filter(app => {
+              return app.applicationstatus != "APPROVED"
+          })
+
+          filteredApplicationData = filteredApplicationData.sort((a, b) => {
+              return (
+                  new Date(a.applicationdate)
+                  <
+                  new Date(b.applicationdate)
+              )
+          })
+
+          this.setState({
+              applicationData: filteredApplicationData
+          })
+      }
+  }
+
+  componentWillMount(){
+    this.fetchApplications()
+  }
+
+  approveApplication = async () => {
+
+  }
+
+  rejectApplication = async () => {
+
+  }
+
   render() {
     return (
       <>
@@ -13,45 +55,45 @@ class Table extends Component {
         </div>
         <div className="hr2"></div>
         <div className="tab">
-          {/* {this.props.data != undefined ? ( */}
+           {this.state.applicationData.length ? (
           <>
             <table class="content-table">
               <thead>
                 <tr>
                   <th>Id</th>
                   <th>Name</th>
-                  <th>Email</th>
+                  <th>Status</th>
                   <th>Department</th>
                   <th>Application Date</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {/* {this.props.data.map((item) => ( */}
+                {this.state.applicationData.map((application) => (
                 <tr className={"commontr tr"}>
                   <td>
-                    <a href={"certificate/"}>1</a>
+                    <a href={"certificate/"}>{application.applicationid}</a>
                   </td>
-                  <td>Jhenil</td>
-                  <td>jhenil@mail.com</td>
-                  <td>IT</td>
-                  <td>1/2/2023</td>
+                  <td>{application.applicantname}</td>
+                  <td>{application.applicationstatus.replace("_", " ")}</td>
+                  <td>{application.applicantgroup}</td>
+                  <td>{new Date(application.applicationdate).toLocaleDateString()}</td>
                   <td>
                     <div className="">
-                      <button name="conform-edit" className="action-btn">
+                      <button name="conform-edit" className="action-btn" onClick={this.approveApplication}>
                         <Confirm />
                       </button>
-                      <button name="cancel-edit" className="action-btn">
+                      <button name="cancel-edit" className="action-btn" onClick={this.rejectApplication}>
                         <Cancel />
                       </button>
                     </div>
                   </td>
                 </tr>
-                {/* ))} */}
+                    ))}
               </tbody>
             </table>
           </>
-          {/* ) : null} */}
+           ) : null}
         </div>
       </>
     );
