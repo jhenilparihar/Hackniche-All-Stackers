@@ -171,7 +171,7 @@ const ParticipationTemplate = ({ AllCert, sendEmail, handleActiveLink }) => {
               <div id="download-section">
                 <h1>Issued by</h1>
                 <hr id="hr" />
-                <h2>D.J. Sanghvi College Of Engineering</h2>
+                <h2>Dwakadas J. Sanghvi College Of Engineering</h2>
                 <h1 class="action">Actions</h1>
 
                 <hr id="hr" />

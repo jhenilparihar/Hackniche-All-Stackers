@@ -120,7 +120,7 @@ const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
                   <img class="image_template" src={bgImage} alt="" />
                 </div>
                 <div id="clg-name">
-                  <h1>D.J. Sanghvi College Of Engineering</h1>
+                  <h1>Dwakadas J. Sanghvi College Of Engineering</h1>
                 </div>
                 <div id="recognition-text">
                   <h1>CERTIFICATE</h1>
@@ -174,7 +174,7 @@ const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
               <div id="download-section">
                 <h1>Issued by</h1>
                 <hr id="hr" />
-                <h2>D.J. Sanghvi College Of Engineering</h2>
+                <h2>Dwakadas J. Sanghvi College Of Engineering</h2>
                 <h1 class="action">Actions</h1>
 
                 <hr id="hr" />
