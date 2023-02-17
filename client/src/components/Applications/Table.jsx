@@ -3,6 +3,8 @@ import { Add, Edit, Delete, Confirm, Cancel } from "./Svg";
 import axios from "axios";
 import { Buffer } from 'buffer';
 
+import CertBaseSVG from '../Others/assets/DomicileCert.svg'
+
 // import { create } from "ipfs-http-client";
 // import { Buffer } from "buffer";
 
