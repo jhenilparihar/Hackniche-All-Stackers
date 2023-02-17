@@ -15,12 +15,16 @@ CREATE TABLE IF NOT EXISTS approval_queue (
         DEFAULT 'IN_PROGRESS',
 
     walletId TEXT,
+
+    -- TOKEN HASH FROM BLOCKCHAIN
+    chainToken TEXT DEFAULT NULL,
+
     applicantName TEXT NOT NULL,
     applicantUniqueId TEXT NOT NULL,
+    applicantGroup TEXT NOT NULL,
     applicantEmail TEXT NOT NULL,
     applicantComments TEXT DEFAULT NULL,
 
     appliedOrganization TEXT NOT NULL,
-    CONSTRAINT fk_approval_queue_walletId FOREIGN KEY (walletId) REFERENCES auth_users(walletId),
-    CONSTRAINT fk_approval_queue_appliedOrganization FOREIGN KEY (appliedOrganization) REFERENCES auth_users(userOrganization)
+    CONSTRAINT fk_approval_queue_walletId FOREIGN KEY (walletId) REFERENCES auth_users(walletId)
 )

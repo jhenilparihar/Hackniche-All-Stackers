@@ -1,15 +1,34 @@
-import * as pg from 'pg';
+import * as express from 'express';
 import * as dotenv from 'dotenv'
+import * as cors from 'cors';
+import helmet from 'helmet'
+import {authRouter} from "./routes/authRoutes";
 
 dotenv.config()
 
-const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
-})
+const server = express()
 
-if (db == null){
-  console.error("Could not connect to database")
-} else {
-  db.query("SELECT 1").then(console.table)
-}
+server.use(
+	express.urlencoded({
+		extended: true
+	})
+)
+
+server.use(
+	express.json()
+)
+
+server.use(cors())
+server.use(helmet())
+
+server.use(
+	'/login',
+	authRouter
+)
+
+server.listen(
+	process.env.PORT,
+	() => {
+		console.log("Certifyer Backend is up and running on port", process.env.PORT)
+	}
+)
