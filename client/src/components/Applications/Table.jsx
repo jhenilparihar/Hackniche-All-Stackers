@@ -1,6 +1,19 @@
 import React, { Component } from "react";
 import { Add, Edit, Delete, Confirm, Cancel } from "./Svg";
-
+const projectId = "2LsorBsjfMAZIt0x67uZarPu3sM";
+  const projectSecret = "d2ad2619c1b0e37610b600143bf589af";
+  const auth =
+    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+  
+  const client = create({
+    host: "ipfs.infura.io",
+    port: 5001,
+    protocol: "https",
+    headers: {
+      authorization: auth,
+    },
+  });
+  
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -8,7 +21,7 @@ class Table extends Component {
         applicationData: []
     }
   }
-
+  
   fetchApplications = async () => {
       const response = await fetch(
           "http://localhost:8080/applications?organizationId=DJSCE"
