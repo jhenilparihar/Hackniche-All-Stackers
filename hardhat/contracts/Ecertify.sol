@@ -135,7 +135,7 @@ function addExtraCertificate(
         cert.transactionHash = _transactionHash;
         allExtraCertificates[certificateCounter] = cert;
         // add the hash value and it's certificate to allCertificate mapping
-        allhashedCertificates[_transactionHash] = cert;
+        allhashedExtraCertificates[_transactionHash] = cert;
         certficateHashExist[_transactionHash] = true;
     }
 
