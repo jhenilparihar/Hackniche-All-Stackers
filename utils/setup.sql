@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS user_applications (
     applicantGroup TEXT NOT NULL,
     applicantEmail TEXT NOT NULL,
     applicantComments TEXT DEFAULT NULL,
+    applicationDate TIMESTAMP WITH TIME ZONE,
 
     appliedOrganization TEXT NOT NULL,
     CONSTRAINT fk_approval_queue_walletId FOREIGN KEY (walletId) REFERENCES auth_users(walletId)
