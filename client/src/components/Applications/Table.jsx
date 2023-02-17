@@ -18,7 +18,7 @@ class Table extends Component {
           const {applicationData} = resData
 
           let filteredApplicationData = applicationData.filter(app => {
-              return app.applicationstatus != "APPROVED"
+              return app.applicationstatus == "IN_PROGRESS"
           })
 
           filteredApplicationData = filteredApplicationData.sort((a, b) => {
@@ -39,8 +39,8 @@ class Table extends Component {
     this.fetchApplications()
   }
 
-  approveApplication = async () => {
-
+  approveApplication = async (applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype) => {
+    this.props.addExtraCert(applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype)
   }
 
   rejectApplication = async () => {
@@ -80,7 +80,7 @@ class Table extends Component {
                   <td>{new Date(application.applicationdate).toLocaleDateString()}</td>
                   <td>
                     <div className="">
-                      <button name="conform-edit" className="action-btn" onClick={this.approveApplication}>
+                      <button name="conform-edit" className="action-btn" onClick={()=>{this.approveApplication(application.applicantname,application.applicantgroup,application.applicantemail,application.applicantuniqueid,application.applicationtype)}}>
                         <Confirm />
                       </button>
                       <button name="cancel-edit" className="action-btn" onClick={this.rejectApplication}>

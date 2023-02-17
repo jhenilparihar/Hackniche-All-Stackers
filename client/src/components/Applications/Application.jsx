@@ -137,7 +137,8 @@ class Application extends Component {
           </div>
           <div className="table-div">
             <Table
-              allCert={this.props.allCert}
+            //   allCert={this.props.allCert}
+              addExtraCert={this.props.addExtraCert}
             />
 
             <div className="pagination-div">

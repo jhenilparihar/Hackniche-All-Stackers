@@ -35,7 +35,7 @@ class App extends Component {
       metamaskConnected: false,
       contractDetected: false,
       certCount: 0,
-      extraCertCount:0,
+      extraCertCount: 0,
       AcademicCertificate: [],
       EventCertificate: [],
       ExtraCertificate: [],
@@ -44,10 +44,8 @@ class App extends Component {
       certificateCreated: false,
       certificateType: null,
       createType: null,
-      isAdmin: false
+      isAdmin: false,
     };
-
-
   }
 
   componentWillMount = async () => {
@@ -94,8 +92,6 @@ class App extends Component {
           .eventCertificateCounter()
           .call();
 
-
-
         this.setState({ certCount });
         for (var i = 1; i <= certCount; i++) {
           const certificate = await EcertoContract.methods
@@ -117,64 +113,56 @@ class App extends Component {
           });
         }
 
-// extra cert
+        // extra cert
 
-const extraCertCount = await EcertoContract.methods
+        const extraCertCount = await EcertoContract.methods
           .extracertificateCounter()
           .call();
 
-          this.setState({ extraCertCount });
+        this.setState({ extraCertCount });
 
-          for (var i = 1; i <= extraCertCount; i++) {
-            const certificate = await EcertoContract.methods
-              .allExtraCertificates(i)
-              .call();
-            this.setState({
-              ExtraCertificate: [
-                ...this.state.ExtraCertificate,
-                certificate,
-              ],
-            });
-          }
-
+        for (var i = 1; i <= extraCertCount; i++) {
+          const certificate = await EcertoContract.methods
+            .allExtraCertificates(i)
+            .call();
+          this.setState({
+            ExtraCertificate: [...this.state.ExtraCertificate, certificate],
+          });
+        }
+        console.log(this.state.ExtraCertificate);
       } else {
         this.setState({ contractDetected: false });
       }
     }
   };
   authenticateWithBackendAndRole = async () => {
-      if (this.state.accountAddress.toString().trim() === ""){
-          return
+    if (this.state.accountAddress.toString().trim() === "") {
+      return;
+    }
+
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        walletId: this.state.accountAddress,
+        userOrganization: "DJSCE",
+        userRole: "APPLICANT",
+      }),
+    });
+
+    if (response.ok) {
+      const resJson = await response.json();
+      const { userRole } = resJson.authData;
+      if (userRole === "ADMIN") {
+        console.log("ADMIN TRUE");
+        this.setState({ isAdmin: true });
       }
-
-      const response = await fetch(
-          "http://localhost:8080/auth/login",
-          {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                  walletId: this.state.accountAddress,
-                  userOrganization: "DJSCE",
-                  userRole: "APPLICANT"
-              })
-          }
-      )
-
-      if (response.ok) {
-          const resJson = await response.json()
-          const {userRole} = resJson.authData
-          if (userRole === "ADMIN"){
-              console.log("ADMIN TRUE")
-              this.setState({isAdmin: true})
-          }
-
-      } else {
-          console.error("Invalid authentication credentials provided")
-      }
-
-  }
+    } else {
+      console.error("Invalid authentication credentials provided");
+    }
+  };
 
   connectToMetamask = async () => {
     await window.ethereum.enable();
@@ -282,9 +270,7 @@ const extraCertCount = await EcertoContract.methods
   };
 
   handleActiveLink = (id) => {
-    if (
-      this.state.isAdmin
-    ) {
+    if (this.state.isAdmin) {
       document.querySelector("#all").classList.remove("nav-active");
       document.querySelector("#all2").classList.remove("nav-active");
       document.querySelector("#create").classList.remove("nav-active");
@@ -298,7 +284,6 @@ const extraCertCount = await EcertoContract.methods
     }
   };
 
-  
   // add extra user
   // string memory _name,
   // string memory _course,
@@ -306,16 +291,18 @@ const extraCertCount = await EcertoContract.methods
   // uint256 _SAP,
   // string memory _reason,
   // string memory _type
-  addExtraCert=(name,course,email,sap,type)=>{
+  addExtraCert = async (name, course, email, sap, type) => {
+    const issueDate = await this.getCuurentDate();
+    console.log(name, course, email, sap, type,issueDate);
     this.state.EcertoContract.methods
-    .addExtraCertificate(name,course,email,sap,type)
-    .send({ from: this.state.accountAddress })
-    .on("confirmation", () => {
-      localStorage.setItem(this.state.accountAddress, new Date().getTime());
-      this.setState({ loading: false, certificateCreated: true });
-      // window.location.reload();
-    });
-  }
+      .addExtraCertificate(name, course, email, sap, type,issueDate)
+      .send({ from: this.state.accountAddress })
+      .on("confirmation", () => {
+        localStorage.setItem(this.state.accountAddress, new Date().getTime());
+        this.setState({ loading: false, certificateCreated: true });
+        // window.location.reload();
+      });
+  };
 
   sendEmail = async (name, email, hash, department) => {
     console.log("Here");
@@ -370,8 +357,8 @@ const extraCertCount = await EcertoContract.methods
                   path="/"
                   element={
                     <Navbar
-                        accountAddress={this.state.accountAddress}
-                        isAdmin={this.state.isAdmin}
+                      accountAddress={this.state.accountAddress}
+                      isAdmin={this.state.isAdmin}
                     />
                   }
                 >
@@ -381,7 +368,12 @@ const extraCertCount = await EcertoContract.methods
                         path="/"
                         element={<Navigate replace to="/dashboard" />}
                       />
-                      <Route path="/applications" element={<Application />} />
+                      <Route
+                        path="/applications"
+                        element={
+                          <Application addExtraCert={this.addExtraCert} />
+                        }
+                      />
                       <Route
                         path="/dashboard"
                         element={

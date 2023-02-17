@@ -44,6 +44,7 @@ contract Ecertify {
         string email;
         uint256 SAP;
         string certType;
+        string issueDate;
     }
 
     // map Certificates's id to Certificate
@@ -106,7 +107,8 @@ function addExtraCertificate(
         string memory _course,
         string memory _email,
         uint256 _SAP,
-        string memory _type
+        string memory _type,
+        string memory _issueDate
     ) external {
         extracertificateCounter++;
         // require(!_exists(certificateCounter));
@@ -120,7 +122,8 @@ function addExtraCertificate(
             _course,
             _email,
             _SAP,
-            _type
+            _type,
+            _issueDate
         );
         // add the id and it's certificate to allCertificate mapping
         allExtraCertificates[extracertificateCounter] = newCert;
