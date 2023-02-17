@@ -23,6 +23,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
+    "ipfs-http-client": "^60.0.0",
     "pg": "^8.9.0",
     "typescript": "^4.9.5"
   },
