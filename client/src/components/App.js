@@ -22,6 +22,7 @@ import Query from "./Query/Query";
 import DisplayEventCert from "./Dashboard/displayEventCertificate";
 import ApplicationForm from "./ApplicationForm/ApplicationForm";
 import { contractAddress } from "../abis/contractAddress";
+import Application from "./Applications/Application";
 
 class App extends Component {
   constructor(props) {
@@ -72,7 +73,6 @@ class App extends Component {
       this.setState({ accountAddress: accounts[0] });
 
       this.setState({ loading: false });
-      const networkId = await web3.eth.net.getId();
       if (contractAddress) {
         this.setState({ loading: true });
         const EcertoContract = web3.eth.Contract(Ecertify.abi, contractAddress);
@@ -302,6 +302,7 @@ class App extends Component {
                         path="/"
                         element={<Navigate replace to="/dashboard" />}
                       />
+                      <Route path="/applications" element={<Application />} />
                       <Route
                         path="/dashboard"
                         element={
