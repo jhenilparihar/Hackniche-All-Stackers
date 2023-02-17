@@ -206,7 +206,7 @@ class Table extends Component {
               certBaseImg, 0, 0, 900, 600
           )
 
-          canvasContext.font = "18px"
+          canvasContext.font = "36px"
 
           canvasContext.fillText(
               appName,
@@ -218,7 +218,7 @@ class Table extends Component {
               500, 305
           )
 
-          canvasContext.font = "12px"
+          canvasContext.font = "24px"
 
           canvasContext.fillText(
               appGroup,
