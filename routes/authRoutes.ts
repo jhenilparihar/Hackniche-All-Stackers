@@ -7,20 +7,6 @@ async function authenticateUser(req: Request, res: Response) {
 	try {
 		let {walletId, userOrganization, userRole} = req.body
 		
-		userRole = userRole || "APPLICANT"
-		
-		
-		
-		if (userRole !== "ADMIN" && userRole !== "APPLICANT"){
-			res.status(400).json({
-				"actionStatus": "ERR_INVALID_DATA",
-				"invalidData": [
-					"userRole"
-				]
-			})
-			return
-		}
-		
 		const {rows: existingUserRows} = await db.query(
 			"SELECT * FROM auth_users WHERE walletid = $1",
 			[walletId]
@@ -45,25 +31,15 @@ async function authenticateUser(req: Request, res: Response) {
 				}
 			})
 		} else {
-			const currentUserData: any = existingUserRows[0]
-			const {userrole: existingUserRole, userorganization: existingUserOrganization}: any = currentUserData
-			if (existingUserRole === userRole && existingUserOrganization === userOrganization){
-				res.status(200).json({
-					"actionStatus": "SUCCESS",
-					"authData": {
-						walletId,
-						userOrganization,
-						userRole
-					}
-				})
-			} else {
-				res.status(401).json({
-					"actionStatus": "ERR_INVALID_DATA",
-					"invalidData": [
-						"walletId", "userOrganization", "userRole"
-					]
-				})
-			}
+			const {userorganization: userOrganization, userrole: userRole} = existingUserRows[0]
+			res.status(200).json({
+				"actionStatus": "SUCCESS",
+				"authData": {
+					walletId,
+					userOrganization,
+					userRole
+				}
+			})
 		}
 	} catch (err: any) {
 		console.error(err)
