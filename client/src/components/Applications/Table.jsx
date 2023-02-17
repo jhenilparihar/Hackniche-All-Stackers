@@ -4,7 +4,7 @@ const projectId = "2LsorBsjfMAZIt0x67uZarPu3sM";
   const projectSecret = "d2ad2619c1b0e37610b600143bf589af";
   const auth =
     "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  
+
   const client = create({
     host: "ipfs.infura.io",
     port: 5001,
@@ -13,7 +13,10 @@ const projectId = "2LsorBsjfMAZIt0x67uZarPu3sM";
       authorization: auth,
     },
   });
-  
+
+
+import CertBaseSVG from '../Others/assets/DomicileCert.svg'
+
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +24,7 @@ class Table extends Component {
         applicationData: []
     }
   }
-  
+
   fetchApplications = async () => {
       const response = await fetch(
           "http://localhost:8080/applications?organizationId=DJSCE"
@@ -60,6 +63,8 @@ class Table extends Component {
     const randChars = Array.from(applicantname).sort((a, b) => {
         return a.charCodeAt(0) < b.charCodeAt(0)
     })
+
+    await this.createCertImage(applicantname, applicantgroup, applicantuniqueid)
 
     const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`
 
@@ -113,6 +118,48 @@ class Table extends Component {
             })
           }
       }
+  }
+
+  /**
+   * @return {Buffer}
+   */
+  async createCertImage(appName, appGroup, appUniqueId){
+      const certCanvas = new OffscreenCanvas(900, 600)
+      const canvasContext = certCanvas.getContext("2d")
+
+      const certBaseImg = new Image(900, 600)
+      certBaseImg.src = CertBaseSVG
+
+      certBaseImg.onload = async () => {
+          canvasContext.drawImage(
+              certBaseImg, 0, 0, 900, 600
+          )
+
+          canvasContext.font = "18px"
+
+          canvasContext.fillText(
+              appName,
+              450, 190
+          )
+
+          canvasContext.fillText(
+              appUniqueId,
+              500, 305
+          )
+
+          canvasContext.font = "12px"
+
+          canvasContext.fillText(
+              appGroup,
+              385, 345
+          )
+
+          const canvasBlob = await certCanvas.convertToBlob()
+
+          /* CALL BLOB FN HERE */
+      }
+
+
   }
 
   render() {
