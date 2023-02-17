@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS auth_users (
         DEFAULT 'APPLICANT'
 );
 
-CREATE TABLE IF NOT EXISTS approval_queue (
+CREATE TABLE IF NOT EXISTS user_applications (
     applicationId SERIAL PRIMARY KEY,
     applicationStatus TEXT
         CHECK (
@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS approval_queue (
     applicantGroup TEXT NOT NULL,
     applicantEmail TEXT NOT NULL,
     applicantComments TEXT DEFAULT NULL,
+    applicationDate TIMESTAMP WITH TIME ZONE,
 
     appliedOrganization TEXT NOT NULL,
     CONSTRAINT fk_approval_queue_walletId FOREIGN KEY (walletId) REFERENCES auth_users(walletId)
