@@ -1,0 +1,71 @@
+.query_heading {
+  text-align: center;
+}
+.query_heading h2 {
+  margin: 10px 0;
+}
+.alertbox {
+  display: none;
+}
+.getcertificate_sap {
+  display: none;
+}
+.alertbox_sap {
+  display: none;
+}
+.alertbox_success {
+  display: none;
+}
+
+.query_div {
+  height: 400px;
+  overflow: hidden;
+}
+
+.query_block {
+  padding: 0 20px;
+}
+
+.query_block h6,
+.query_block p {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.query_input {
+  margin: 10px auto;
+  padding: 5px 10px;
+  width: 80%;
+}
+
+.query-btn {
+  color: #3f51b5;
+  border: 1px solid rgba(63, 81, 181, 0.5);
+  padding: 5px 15px;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background-color: transparent;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.alertbox {
+  margin: 20px auto;
+  width: 80%;
+}
+.alertbox_sap,
+.alertbox_success {
+  margin: 10px auto;
+  width: 80%;
+}
+.help_btn {
+  color: blue;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  bottom: 75px;
+  left: 22%;
+}
