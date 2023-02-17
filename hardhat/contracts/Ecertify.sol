@@ -112,11 +112,12 @@ function addExtraCertificate(
     ) external {
         extracertificateCounter++;
         // require(!_exists(certificateCounter));
-
+            bytes32 unique = hash(_name, _SAP);
+            convertedHash = bytes32ToString(unique);
         // create a new Certificate (struct) and pass in new values
         ExtraCertificate memory newCert = ExtraCertificate(
             extracertificateCounter,
-            "0x0",
+            convertedHash,
             _name,
             _course,
             _email,
