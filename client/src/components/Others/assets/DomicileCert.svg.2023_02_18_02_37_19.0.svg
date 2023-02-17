@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="900px"
+   height="600px"
+   viewBox="0 0 900 600"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="DomicileCert.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:export-filename="/home/arnav/Projects/Web/certifyer/client/src/components/Others/assets/DomicileCert.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1013"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="1.0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.70445299"
+     inkscape:cx="358.43414"
+     inkscape:cy="337.14102"
+     inkscape:window-width="1366"
+     inkscape:window-height="736"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-global="true"
+     inkscape:snap-page="true"
+     inkscape:snap-grids="true" />
+  <defs
+     id="defs1008">
+    <linearGradient
+       id="linearGradient146379"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#505050;stop-opacity:1;"
+         offset="0"
+         id="stop146377" />
+    </linearGradient>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path146109" />
+    </marker>
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect1650"
+       is_visible="true"
+       lpeversion="1"
+       offset_points="0.2,0.5 | 2,0.5 | 3.8,0.5"
+       not_jump="false"
+       sort_points="true"
+       interpolator_type="CentripetalCatmullRom"
+       interpolator_beta="0"
+       start_linecap_type="zerowidth"
+       linejoin_type="round"
+       miter_limit="4"
+       scale_width="1"
+       end_linecap_type="zerowidth" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient146379"
+       id="linearGradient146381"
+       x1="372.62521"
+       y1="474.57778"
+       x2="503.25459"
+       y2="474.57778"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 8.5380017,6.4295083 V 589.60436 H 891.17622 V 6.9029871 L 8.5380017,6.4295083"
+       id="path1276"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 94.347699,460.77526 H 270.00717"
+       id="path1718" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.782673px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 581.97848,460.77526 H 783.9488"
+       id="path1718-3" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="98.536179"
+       y="498.95642"
+       id="text7268"><tspan
+         sodipodi:role="line"
+         id="tspan7266"
+         x="98.536179"
+         y="498.95642"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;font-family:'Roboto Slab';-inkscape-font-specification:'Roboto Slab, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Principal                                 Registrar</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:64px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+       x="446.87485"
+       y="92.491379"
+       id="text7268-4-4"><tspan
+         x="446.87485"
+         y="92.491379"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;font-family:'Roboto Slab';-inkscape-font-specification:'Roboto Slab, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:1"
+         id="tspan26215"
+         sodipodi:role="line">DOMICILE CERTIFICATE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;line-height:1.25;font-family:'Roboto Slab';-inkscape-font-specification:'Roboto Slab, Normal';image-rendering:auto"
+       x="447.61115"
+       y="217.28305"
+       id="text41367"><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="217.28305"
+         id="tspan47443"
+         style="font-size:24px;text-align:center;text-anchor:middle">This is to certify that Mr / Mrs. /Ms. _______________________________</tspan><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="247.28305"
+         id="tspan47775"
+         style="font-size:24px;text-align:center;text-anchor:middle">is a bonafide student of the institute D.J. Sanghvi College of Engineering.</tspan><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="277.28305"
+         style="font-size:24px;text-align:center;text-anchor:middle"
+         id="tspan120742">Their registration details as recorded by the institute are -</tspan><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="307.28305"
+         style="font-size:24px;text-align:center;text-anchor:middle"
+         id="tspan121230"></tspan><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="337.28305"
+         style="font-size:24px;text-align:center;text-anchor:middle"
+         id="tspan125620">Unique Registration ID - _____________</tspan><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="367.28305"
+         style="font-size:24px;text-align:center;text-anchor:middle"
+         id="tspan121232">Department - ______________________</tspan><tspan
+         sodipodi:role="line"
+         x="447.61115"
+         y="397.28305"
+         style="font-size:24px;text-align:center;text-anchor:middle"
+         id="tspan125622" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;line-height:1.25;font-family:'Roboto Slab';-inkscape-font-specification:'Roboto Slab, Normal'"
+       x="24.555326"
+       y="574.40033"
+       id="text86108"><tspan
+         sodipodi:role="line"
+         id="tspan86106"
+         x="24.555326"
+         y="574.40033"
+         style="font-size:16px">Certificate ID : </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;line-height:1.25;font-family:'Roboto Slab';-inkscape-font-specification:'Roboto Slab, Normal'"
+       x="705.4118"
+       y="555.94647"
+       id="text94602"><tspan
+         sodipodi:role="line"
+         id="tspan94600"
+         x="705.4118"
+         y="555.94647"
+         style="font-size:16px;fill:#505150;fill-opacity:1">Authentic Certificate</tspan><tspan
+         sodipodi:role="line"
+         x="705.4118"
+         y="575.94647"
+         id="tspan94768"
+         style="font-size:16px;fill:#505150;fill-opacity:1">Generated By Certifyer </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;line-height:1.25;font-family:'Roboto Slab';-inkscape-font-specification:'Roboto Slab, Normal'"
+       x="448.24258"
+       y="253.44798"
+       id="text128770"><tspan
+         sodipodi:role="line"
+         id="tspan128768"
+         x="448.24258"
+         y="253.44798">__________________</tspan></text>
+    <rect
+       style="fill:#000000;fill-opacity:0;stroke:url(#linearGradient146381);stroke-opacity:1;stroke-width:1.1;stroke-miterlimit:4;stroke-dasharray:3.3,1.1;stroke-dashoffset:0"
+       id="rect143536"
+       width="129.62938"
+       height="129.62938"
+       x="373.12521"
+       y="409.76309" />
+  </g>
+</svg>

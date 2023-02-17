@@ -133,6 +133,8 @@ class Table extends Component {
         return a.charCodeAt(0) < b.charCodeAt(0)
     })
 
+    await this.createCertImage(applicantname, applicantgroup, applicantuniqueid)
+
     const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`
 
     const resp = await fetch(
@@ -185,6 +187,48 @@ class Table extends Component {
             })
           }
       }
+  }
+
+  /**
+   * @return {Buffer}
+   */
+  async createCertImage(appName, appGroup, appUniqueId){
+      const certCanvas = new OffscreenCanvas(900, 600)
+      const canvasContext = certCanvas.getContext("2d")
+
+      const certBaseImg = new Image(900, 600)
+      certBaseImg.src = CertBaseSVG
+
+      certBaseImg.onload = async () => {
+          canvasContext.drawImage(
+              certBaseImg, 0, 0, 900, 600
+          )
+
+          canvasContext.font = "18px"
+
+          canvasContext.fillText(
+              appName,
+              450, 190
+          )
+
+          canvasContext.fillText(
+              appUniqueId,
+              500, 305
+          )
+
+          canvasContext.font = "12px"
+
+          canvasContext.fillText(
+              appGroup,
+              385, 345
+          )
+
+          const canvasBlob = await certCanvas.convertToBlob()
+
+          /* CALL BLOB FN HERE */
+      }
+
+
   }
 
   render() {
