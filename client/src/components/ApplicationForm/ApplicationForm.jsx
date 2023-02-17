@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./styles.css";
 
 class ApplicationForm extends Component {
   constructor(props) {
@@ -33,16 +34,19 @@ class ApplicationForm extends Component {
                 <div className="col-6">
                   <div className="file_input_area">
                     <br />
-                    <button className="publish_btn">Send Application</button>
+                    {/* <button className="publish_btn">Send Application</button> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="upload_excel_main">
-            <div className="container">
+            <div className="container apply-form-container">
+              <div className="leftd">
+
               <p>Name</p>
               <input
+               class="application-form-input"
                 type="text"
                 value={this.state.name}
                 onChange={(e) => {
@@ -53,6 +57,7 @@ class ApplicationForm extends Component {
               />
               <p>SAP ID</p>
               <input
+              class="application-form-input"
                 type="number"
                 value={this.state.SAP}
                 min="0"
@@ -62,6 +67,7 @@ class ApplicationForm extends Component {
               />
               <p>Email</p>
               <input
+              class="application-form-input"
                 type="text"
                 value={this.state.email}
                 onChange={(e) => {
@@ -72,7 +78,8 @@ class ApplicationForm extends Component {
               />
               <p>Course</p>
               <select
-                class="select-course"
+              
+                class="select-course application-form-input"
                 onChange={(e) => {
                   this.setState({
                     course: e.target.value,
@@ -97,6 +104,9 @@ class ApplicationForm extends Component {
                   Chemical Engineering
                 </option>
               </select>
+              <button className="publish_btn sen-btn">Send Application</button>
+              </div>
+              <div className="rightd">
               <p>Comment</p>
               <textarea
                 cols="30"
@@ -108,9 +118,14 @@ class ApplicationForm extends Component {
                   });
                 }}
               ></textarea>
+              
+              </div>
+             
+              
               <br />
-              <button className="publish_btn">Send Application</button>
+              
             </div>
+            
           </div>
         </div>
       </div>
