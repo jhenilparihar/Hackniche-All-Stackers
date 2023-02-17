@@ -39,12 +39,67 @@ class Table extends Component {
     this.fetchApplications()
   }
 
-  approveApplication = async (applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype) => {
+  approveApplication = async (applicationid, applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype) => {
     this.props.addExtraCert(applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype)
+
+    const nowTs = (new Date()).getTime()
+
+    const randChars = Array.from(applicantname).sort((a, b) => {
+        return a.charCodeAt(0) < b.charCodeAt(0)
+    })
+
+    const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`
+
+    const resp = await fetch(
+        `http://localhost:8080/applications/${applicationid}/approve`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                chainToken: finalTokenId
+            })
+        }
+    )
+
+    if (resp.ok){
+        const respJson = await resp.json()
+        if (respJson.actionStatus == "SUCCESS"){
+            this.setState((prevState) => {
+                return prevState.applicationData.map((application) => {
+                    if (application.applicationid === applicationid){
+                        return {
+                            ...application,
+                            applicationstatus: "APPROVED"
+                        }
+                    } else {
+                        return application;
+                    }
+                })
+            })
+        }
+    }
   }
 
-  rejectApplication = async () => {
+  rejectApplication = async (applicationid) => {
+      const resp = await fetch(
+          `http://localhost:8080/applications/${applicationid}/reject`,
+          {
+              method: "POST"
+          }
+      )
 
+      if (resp.ok){
+          const respJson = await resp.json()
+          if (respJson.actionStatus == "SUCCESS"){
+              this.setState({
+                  applicationData: this.state.applicationData.filter((app) => {
+                      return app.applicationid != applicationid
+                  })
+            })
+          }
+      }
   }
 
   render() {
@@ -57,7 +112,7 @@ class Table extends Component {
         <div className="tab">
            {this.state.applicationData.length ? (
           <>
-            <table class="content-table">
+            <table className="content-table">
               <thead>
                 <tr>
                   <th>Id</th>
@@ -80,10 +135,12 @@ class Table extends Component {
                   <td>{new Date(application.applicationdate).toLocaleDateString()}</td>
                   <td>
                     <div className="">
-                      <button name="conform-edit" className="action-btn" onClick={()=>{this.approveApplication(application.applicantname,application.applicantgroup,application.applicantemail,application.applicantuniqueid,application.applicationtype)}}>
+                      <button name="conform-edit" className="action-btn" onClick={()=>{this.approveApplication(
+                          application.applicationid, application.applicantname,application.applicantgroup,application.applicantemail,application.applicantuniqueid,application.applicationtype
+                      )}}>
                         <Confirm />
                       </button>
-                      <button name="cancel-edit" className="action-btn" onClick={this.rejectApplication}>
+                      <button name="cancel-edit" className="action-btn" onClick={() => this.rejectApplication(application.applicationid)}>
                         <Cancel />
                       </button>
                     </div>
