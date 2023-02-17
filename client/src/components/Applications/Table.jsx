@@ -206,23 +206,23 @@ class Table extends Component {
               certBaseImg, 0, 0, 900, 600
           )
 
-          canvasContext.font = "36px"
+          canvasContext.font = "24px Roboto"
 
           canvasContext.fillText(
               appName,
-              450, 190
+              450, 205
           )
 
           canvasContext.fillText(
               appUniqueId,
-              500, 305
+              500, 325
           )
 
-          canvasContext.font = "24px"
+          canvasContext.font = "16px "
 
           canvasContext.fillText(
               appGroup,
-              385, 345
+              385, 365
           )
 
           const canvasBlob = await certCanvas.convertToBlob()
