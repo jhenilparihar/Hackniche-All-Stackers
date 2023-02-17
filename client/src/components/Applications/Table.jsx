@@ -63,7 +63,7 @@ class Table extends Component {
                   <th>Id</th>
                   <th>Name</th>
                   <th>Status</th>
-                  <th>Department</th>
+                  <th>Group</th>
                   <th>Application Date</th>
                   <th>Action</th>
                 </tr>

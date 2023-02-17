@@ -499,7 +499,7 @@ class App extends Component {
                   />
                   <Route
                     path="application-form"
-                    element={<ApplicationForm />}
+                    element={<ApplicationForm accountAddress={this.state.accountAddress} />}
                   />
                   <Route
                     path="*"

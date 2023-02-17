@@ -9,8 +9,8 @@ class Navbar extends Component {
     return (
       <>
         <header>
-          <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
+          <nav className="navbar navbar-expand-lg">
+            <div className="container-fluid">
               <Link to="/">
                 <span className="navbar-logo">
                   <img src={logo} alt="" />

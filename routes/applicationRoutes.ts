@@ -7,15 +7,15 @@ async function createApplication(req: Request, res: Response){
 	try {
 		const {
 			walletId, applicantName, applicantUniqueId, applicantGroup,
-			applicantEmail, applicantComment, appliedOrganization
+			applicantEmail, applicantComment, applicationType, appliedOrganization
 		} = req.body
 		
 		await db.query("BEGIN")
 		const {rows: creationResultRows} = await db.query(
 			`INSERT INTO user_applications
-			(walletid, applicantname, applicantuniqueid, applicantgroup, applicantemail, applicantcomments, appliedorganization, applicationdate)
+			(walletid, applicantname, applicantuniqueid, applicantgroup, applicantemail, applicantcomments, appliedorganization, applicationtype , applicationdate)
 			VALUES
-			($1, $2, $3, $4, $5, $6, $7, NOW())
+			($1, $2, $3, $4, $5, $6, $7, $8, NOW())
 			RETURNING applicationid, applicationstatus`,
 			[
 				walletId, applicantName,
@@ -23,7 +23,8 @@ async function createApplication(req: Request, res: Response){
 				applicantGroup,
 				applicantEmail,
 				applicantComment,
-				appliedOrganization
+				appliedOrganization,
+				applicationType
 			]
 		)
 		

@@ -17,19 +17,20 @@ exports.applicationRouter = applicationRouter;
 function createApplication(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { walletId, applicantName, applicantUniqueId, applicantGroup, applicantEmail, applicantComment, appliedOrganization } = req.body;
+            const { walletId, applicantName, applicantUniqueId, applicantGroup, applicantEmail, applicantComment, applicationType, appliedOrganization } = req.body;
             yield db_1.db.query("BEGIN");
             const { rows: creationResultRows } = yield db_1.db.query(`INSERT INTO user_applications
-			(walletid, applicantname, applicantuniqueid, applicantgroup, applicantemail, applicantcomments, appliedorganization, applicationdate)
+			(walletid, applicantname, applicantuniqueid, applicantgroup, applicantemail, applicantcomments, appliedorganization, applicationtype , applicationdate)
 			VALUES
-			($1, $2, $3, $4, $5, $6, $7, NOW())
+			($1, $2, $3, $4, $5, $6, $7, $8, NOW())
 			RETURNING applicationid, applicationstatus`, [
                 walletId, applicantName,
                 applicantUniqueId,
                 applicantGroup,
                 applicantEmail,
                 applicantComment,
-                appliedOrganization
+                appliedOrganization,
+                applicationType
             ]);
             const createdRow = creationResultRows[0];
             const { applicationid: createdAppId, applicationstatus: createdAppStatus } = createdRow;
