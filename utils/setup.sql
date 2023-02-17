@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS user_applications (
     applicantGroup TEXT NOT NULL,
     applicantEmail TEXT NOT NULL,
     applicantComments TEXT DEFAULT NULL,
+
+    applicationType TEXT,
     applicationDate TIMESTAMP WITH TIME ZONE,
 
     appliedOrganization TEXT NOT NULL,
