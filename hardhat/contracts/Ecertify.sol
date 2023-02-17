@@ -1,6 +1,5 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
-
 pragma abicoder v2;
 
 // NFT smart contract inherits ERC721 interface
@@ -8,6 +7,7 @@ contract Ecertify {
     // total number of NFT minted
     uint256 public certificateCounter;
     uint256 public eventCertificateCounter;
+    uint256 public extracertificateCounter;
     string convertedHash;
 
     struct Certificate {
@@ -36,17 +36,35 @@ contract Ecertify {
         string issueDate;
     }
 
+    struct ExtraCertificate {
+        uint256 certid;
+        string transactionHash;
+        string name;
+        string course;
+        string email;
+        uint256 SAP;
+        string reason;
+        string certType;
+    }
+
     // map Certificates's id to Certificate
     mapping(uint256 => Certificate) public allCertificates;
 
     // map Certificates's id to Certificate
     mapping(uint256 => EventCertificate) public allEventCertificates;
 
+
+    // map Certificates's id to Certificate
+    mapping(uint256 => ExtraCertificate) public allExtraCertificates;
+
     // map Certificates's hash to Certificate
     mapping(string => Certificate) public allhashedCertificates;
 
     // map Certificates's hash to Certificate
     mapping(string => EventCertificate) public allhashedEventCertificates;
+
+    // map Certificates's hash to Certificate
+    mapping(string => ExtraCertificate) public allhashedExtraCertificates;
 
     mapping(string => bool) public certficateHashExist;
 
@@ -82,6 +100,43 @@ contract Ecertify {
         allCertificates[certificateCounter] = newCert;
 
         sapIdExist[_SAP] = true;
+    }
+
+function addExtraCertificate(
+        string memory _name,
+        string memory _course,
+        string memory _email,
+        uint256 _SAP,
+        string memory _reason,
+        string memory _type
+    ) external {
+        extracertificateCounter++;
+        // require(!_exists(certificateCounter));
+
+        // create a new Certificate (struct) and pass in new values
+        ExtraCertificate memory newCert = ExtraCertificate(
+            extracertificateCounter,
+            "0x0",
+            _name,
+            _course,
+            _email,
+            _SAP,
+            _reason,
+            _type
+        );
+        // add the id and it's certificate to allCertificate mapping
+        allExtraCertificates[extracertificateCounter] = newCert;
+
+        sapIdExist[_SAP] = true;
+    }
+
+    function updateExtraTransaction(string memory _transactionHash) external {
+        ExtraCertificate memory cert = allExtraCertificates[certificateCounter];
+        cert.transactionHash = _transactionHash;
+        allExtraCertificates[certificateCounter] = cert;
+        // add the hash value and it's certificate to allCertificate mapping
+        allhashedCertificates[_transactionHash] = cert;
+        certficateHashExist[_transactionHash] = true;
     }
 
     function updateTransaction(string memory _transactionHash) external {
