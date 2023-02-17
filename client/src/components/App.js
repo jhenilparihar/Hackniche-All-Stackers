@@ -23,6 +23,9 @@ import DisplayEventCert from "./Dashboard/displayEventCertificate";
 import ApplicationForm from "./ApplicationForm/ApplicationForm";
 import { contractAddress } from "../abis/contractAddress";
 import Application from "./Applications/Application";
+import ExtraCert from "./Others/ExtraCert";
+import AllBonafied from "./Bonafied/AllBonafied";
+import BonafiedDetails from "./StudentDetails/BonafiedDetails";
 
 class App extends Component {
   constructor(props) {
@@ -375,6 +378,16 @@ class App extends Component {
                         }
                       />
                       <Route
+                        path="/all-bonafied"
+                        element={
+                          <AllBonafied
+                            allCert={this.state.ExtraCertificate}
+                            sendEmail={this.sendEmail}
+                            handleActiveLink={this.handleActiveLink}
+                          />
+                        }
+                      />
+                      <Route
                         path="/dashboard"
                         element={
                           <DisplayAllCert
@@ -458,6 +471,15 @@ class App extends Component {
                     }
                   />
                   <Route
+                    path="bonfied-vertificate-details/:has"
+                    element={
+                      <BonafiedDetails
+                        AllCert={this.state.ExtraCertificate}
+                        handleActiveLink={this.handleActiveLink}
+                      />
+                    }
+                  />
+                  <Route
                     path="/participant-details/:hash"
                     element={
                       <ParticipantDetail
@@ -471,6 +493,16 @@ class App extends Component {
                     element={
                       <DisplayCert
                         AllCert={this.state.AcademicCertificate}
+                        sendEmail={this.sendEmail}
+                        handleActiveLink={this.handleActiveLink}
+                      />
+                    }
+                  />
+                  <Route
+                    path="bonfied-certificate/:h"
+                    element={
+                      <ExtraCert
+                        AllCert={this.state.ExtraCertificate}
                         sendEmail={this.sendEmail}
                         handleActiveLink={this.handleActiveLink}
                       />

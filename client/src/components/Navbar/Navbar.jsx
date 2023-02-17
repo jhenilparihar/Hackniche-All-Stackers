@@ -24,6 +24,13 @@ class Navbar extends Component {
                       <Link to="/dashboard" id="all" class="navbar-link">
                         Dashboard
                       </Link>
+                      <Link
+                        to="/all-bonafied"
+                        id="query"
+                        class="navbar-link"
+                      >
+                        Bonafied Certificate
+                      </Link>
                       <Link to="/event-certificates" id="all2" class="navbar-link">
                         Event Certificate
                       </Link>
