@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS auth_users (
         DEFAULT 'APPLICANT'
 );
 
-CREATE TABLE IF NOT EXISTS approval_queue (
+CREATE TABLE IF NOT EXISTS user_applications (
     applicationId SERIAL PRIMARY KEY,
     applicationStatus TEXT
         CHECK (

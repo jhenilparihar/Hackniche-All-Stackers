@@ -2,9 +2,11 @@ import * as express from 'express';
 import * as dotenv from 'dotenv'
 import * as cors from 'cors';
 import helmet from 'helmet'
-import {authRouter} from "./routes/authRoutes";
 
 dotenv.config()
+
+import {authRouter} from "./routes/authRoutes";
+import {applicationRouter} from "./routes/applicationRoutes";
 
 const server = express()
 
@@ -22,8 +24,13 @@ server.use(cors())
 server.use(helmet())
 
 server.use(
-	'/login',
+	'/auth',
 	authRouter
+)
+
+server.use(
+	'/applications',
+	applicationRouter
 )
 
 server.listen(
