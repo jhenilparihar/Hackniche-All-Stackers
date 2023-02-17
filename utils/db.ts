@@ -2,7 +2,9 @@ import * as pg from 'pg';
 
 const db = new pg.Pool({
 	connectionString: process.env.DATABASE_URL,
-	ssl: true
+	ssl: {
+		rejectUnauthorized: false
+	}
 })
 
 if (db == null) {

@@ -43,13 +43,25 @@ class App extends Component {
       excelFile: null,
       certificateCreated: false,
       certificateType: null,
-      createType: null,
+      createType: null
     };
+
+
+    /* EDIT THIS */
+    this.adminAddresses = []
+  }
+
+  setOrgAndRole = (org, role) => {
+      this.setState({
+          userOrganization: org,
+          userRole: role
+      })
   }
 
   componentWillMount = async () => {
     await this.loadWeb3();
     await this.loadBlockchainData();
+    await this.authenticateWithBackendAndRole();
   };
 
   loadWeb3 = async () => {
@@ -138,6 +150,34 @@ const extraCertCount = await EcertoContract.methods
       }
     }
   };
+  authenticateWithBackendAndRole = async () => {
+      if (this.state.accountAddress.toString().trim() === ""){
+          return
+      }
+
+      const response = await fetch(
+          "http://localhost:8080/auth/login",
+          {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                  walletId: this.state.accountAddress,
+                  userOrganization: "DJSCE",
+                  userRole: this.adminAddresses.indexOf(
+                      this.state.accountAddress) === -1 ? "APPLICANT" : "ADMIN"
+              })
+          }
+      )
+
+      if (response.ok) {
+          const resJson = await response.json()
+      } else {
+          console.error("Invalid authentication credentials provided")
+      }
+
+  }
 
   connectToMetamask = async () => {
     await window.ethereum.enable();
@@ -354,6 +394,7 @@ const extraCertCount = await EcertoContract.methods
                             allCert={this.state.AcademicCertificate}
                             sendEmail={this.sendEmail}
                             handleActiveLink={this.handleActiveLink}
+                            setOrgAndRole={this.setOrgAndRole}
                           />
                         }
                       />

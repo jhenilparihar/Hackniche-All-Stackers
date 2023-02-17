@@ -4,7 +4,9 @@ exports.db = void 0;
 const pg = require("pg");
 const db = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: true
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 exports.db = db;
 if (db == null) {
