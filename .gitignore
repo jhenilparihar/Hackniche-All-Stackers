@@ -1,0 +1,5 @@
+node_modules
+.idea
+.code
+client/build
+*.js
