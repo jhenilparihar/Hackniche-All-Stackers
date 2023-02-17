@@ -311,9 +311,9 @@ const extraCertCount = await EcertoContract.methods
   // uint256 _SAP,
   // string memory _reason,
   // string memory _type
-  addExtraCert=(name,course,email,sap,reason,type)=>{
+  addExtraCert=(name,course,email,sap,type)=>{
     this.state.EcertoContract.methods
-    .addExtraCertificate(name,course,email,sap,reason,type)
+    .addExtraCertificate(name,course,email,sap,type)
     .send({ from: this.state.accountAddress })
     .on("confirmation", () => {
       localStorage.setItem(this.state.accountAddress, new Date().getTime());

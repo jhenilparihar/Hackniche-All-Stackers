@@ -43,7 +43,6 @@ contract Ecertify {
         string course;
         string email;
         uint256 SAP;
-        string reason;
         string certType;
     }
 
@@ -107,7 +106,6 @@ function addExtraCertificate(
         string memory _course,
         string memory _email,
         uint256 _SAP,
-        string memory _reason,
         string memory _type
     ) external {
         extracertificateCounter++;
@@ -122,7 +120,6 @@ function addExtraCertificate(
             _course,
             _email,
             _SAP,
-            _reason,
             _type
         );
         // add the id and it's certificate to allCertificate mapping
