@@ -125,48 +125,48 @@ class Table extends Component {
   }
 
   approveApplication = async (applicationid, applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype) => {
-    this.props.addExtraCert(applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype)
+    // this.props.addExtraCert(applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype)
 
-    const nowTs = (new Date()).getTime()
+    // const nowTs = (new Date()).getTime()
 
-    const randChars = Array.from(applicantname).sort((a, b) => {
-        return a.charCodeAt(0) < b.charCodeAt(0)
-    })
+    // const randChars = Array.from(applicantname).sort((a, b) => {
+    //     return a.charCodeAt(0) < b.charCodeAt(0)
+    // })
 
     await this.createCertImage(applicantname, applicantgroup, applicantuniqueid)
 
-    const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`
+    // const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`
 
-    const resp = await fetch(
-        `http://localhost:8080/applications/${applicationid}/approve`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                chainToken: finalTokenId
-            })
-        }
-    )
+    // const resp = await fetch(
+    //     `http://localhost:8080/applications/${applicationid}/approve`,
+    //     {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             chainToken: finalTokenId
+    //         })
+    //     }
+    // )
 
-    if (resp.ok){
-        const respJson = await resp.json()
-        if (respJson.actionStatus == "SUCCESS"){
-            this.setState((prevState) => {
-                return prevState.applicationData.map((application) => {
-                    if (application.applicationid === applicationid){
-                        return {
-                            ...application,
-                            applicationstatus: "APPROVED"
-                        }
-                    } else {
-                        return application;
-                    }
-                })
-            })
-        }
-    }
+    // if (resp.ok){
+    //     const respJson = await resp.json()
+    //     if (respJson.actionStatus == "SUCCESS"){
+    //         this.setState((prevState) => {
+    //             return prevState.applicationData.map((application) => {
+    //                 if (application.applicationid === applicationid){
+    //                     return {
+    //                         ...application,
+    //                         applicationstatus: "APPROVED"
+    //                     }
+    //                 } else {
+    //                     return application;
+    //                 }
+    //             })
+    //         })
+    //     }
+    // }
   }
 
   rejectApplication = async (applicationid) => {
@@ -224,7 +224,11 @@ class Table extends Component {
           )
 
           const canvasBlob = await certCanvas.convertToBlob()
-
+          const imageUploadResponse = await this.uploadFileToIPFS(canvasBlob);
+          const imageIPFS = imageUploadResponse.value.cid;
+          console.log(imageIPFS)
+          const imageLink = `https://alchemy.mypinata.cloud/ipfs/${imageIPFS}/`;
+   console.log(imageLink)
           /* CALL BLOB FN HERE */
       }
 
