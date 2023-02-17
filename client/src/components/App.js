@@ -35,8 +35,10 @@ class App extends Component {
       metamaskConnected: false,
       contractDetected: false,
       certCount: 0,
+      extraCertCount:0,
       AcademicCertificate: [],
       EventCertificate: [],
+      ExtraCertificate: [],
       transactionHash: "",
       excelFile: null,
       certificateCreated: false,
@@ -88,6 +90,8 @@ class App extends Component {
           .eventCertificateCounter()
           .call();
 
+
+
         this.setState({ certCount });
         for (var i = 1; i <= certCount; i++) {
           const certificate = await EcertoContract.methods
@@ -108,6 +112,27 @@ class App extends Component {
             EventCertificate: [...this.state.EventCertificate, certificate],
           });
         }
+
+// extra cert
+
+const extraCertCount = await EcertoContract.methods
+          .extracertificateCounter()
+          .call();
+
+          this.setState({ extraCertCount });
+
+          for (var i = 1; i <= extraCertCount; i++) {
+            const certificate = await EcertoContract.methods
+              .allExtraCertificates(i)
+              .call();
+            this.setState({
+              ExtraCertificate: [
+                ...this.state.ExtraCertificate,
+                certificate,
+              ],
+            });
+          }
+
       } else {
         this.setState({ contractDetected: false });
       }
@@ -237,6 +262,25 @@ class App extends Component {
       link.classList.add("nav-active");
     }
   };
+
+  
+  // add extra user
+  // string memory _name,
+  // string memory _course,
+  // string memory _email,
+  // uint256 _SAP,
+  // string memory _reason,
+  // string memory _type
+  addExtraCert=(name,course,email,sap,reason,type)=>{
+    this.state.EcertoContract.methods
+    .addExtraCertificate(name,course,email,sap,reason,type)
+    .send({ from: this.state.accountAddress })
+    .on("confirmation", () => {
+      localStorage.setItem(this.state.accountAddress, new Date().getTime());
+      this.setState({ loading: false, certificateCreated: true });
+      // window.location.reload();
+    });
+  }
 
   sendEmail = async (name, email, hash, department) => {
     console.log("Here");
