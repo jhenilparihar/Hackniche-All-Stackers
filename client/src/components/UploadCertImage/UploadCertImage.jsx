@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
+import { Buffer } from 'buffer';
 
 import "./assets/styles.css";
 
-function UploadCertImage({handleActiveLink}){
+function UploadCertImage({handleActiveLink,bonafiedExist}){
     const [imageFile, setImageFile] = useState(null);
 
     const [certVerified, setCertVerified] = useState(false)
@@ -12,25 +14,90 @@ function UploadCertImage({handleActiveLink}){
     const fileType = [
         "image/png"
     ];
-    const handleFile = async (e) => {
-        let selectedFile = e.target.files[0];
-        console.log(selectedFile.type);
-        if (selectedFile) {
-            console.log(selectedFile.type);
-            if (selectedFile && fileType.includes(selectedFile.type)) {
-                let reader = new FileReader();
-                reader.readAsArrayBuffer(selectedFile);
-                reader.onload = (e) => {
-                    setImageFile(e.target.result);
-                };
-            } else {
-                setImageFile(null);
-            }
-        } else {
-            console.log("plz select your file");
+    // const handleFile = async (e) => {
+    //     let selectedFile = e.target.files[0];
+    //     console.log(selectedFile.type);
+    //     if (selectedFile) {
+    //         console.log(selectedFile.type);
+    //         if (selectedFile && fileType.includes(selectedFile.type)) {
+    //             let reader = new FileReader();
+    //             reader.readAsArrayBuffer(selectedFile);
+    //             reader.onload = (e) => {
+    //                 setImageFile(e.target.result);
+    //             };
+    //         } else {
+    //             setImageFile(null);
+    //         }
+    //     } else {
+    //         console.log("plz select your file");
+    //     }
+    // };
+    const uploadFileToIPFS = async (fileBlob) => {
+        const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE5NzkzNUM4NUQxODZmNEJCN2NlN2U1RjhGYjY4NWQ4NUJlY0ZkREEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE5OTY3NzU0MywibmFtZSI6ImhhcnNoQDIzMDQifQ.gEWeVVohValCGdXRyGorzcYkc0umfpjcJOsPJxDMkQU";
+    
+        var config = {
+          method: "post",
+          url: "https://api.nft.storage/upload",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "image/jpeg",
+          },
+          data: fileBlob,
+        };
+    
+        const fileUploadResponse = await axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            return response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+            return error;
+          });
+    
+        return fileUploadResponse;
+      };
+      const onUpload = async (e) => {
+        // const image = document.querySelector(".img-uploaded");
+        // const fileInput = document.querySelector(".img-fileInput");
+    
+        const file = e.target.files[0];
+        try {
+          // const added = await ipfs.add(file);
+          // const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+    
+          const reader = new window.FileReader();
+          reader.readAsArrayBuffer(file);
+          reader.onloadend = async () => {
+            window.Buffer = Buffer;
+            const res = Buffer(reader.result);
+            var b = Buffer.from(res);
+            let ab = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+            console.log(res);
+            console.log(b);
+            console.log(ab);
+      
+            const imageblob = new Blob([ab], { type: "image/jpg" });
+            // Upload image to IPFS
+            const imageUploadResponse = await uploadFileToIPFS(imageblob);
+            const imageIPFS = imageUploadResponse.value.cid;
+            const imageLink = `https://alchemy.mypinata.cloud/ipfs/${imageIPFS}/`;
+    console.log(imageLink);
+    const rese=await bonafiedExist(imageIPFS);
+    console.log(rese);
+        //     image.style.height = "100%";
+        //   image.style.width = "100%";
+        //   fileInput.style.opacity = "0";
+    
+    //   setState({ fileUrl: imageLink });
+    //      setState({ imageIsUpload: true });
+          }
+    
+          
+        } catch (error) {
+          console.log("Error uploading file: ", error);
         }
-    };
-
+      };
     return (
         <>
             {imageFile === null ? (
@@ -50,7 +117,7 @@ function UploadCertImage({handleActiveLink}){
                                             <br />
                                             <input
                                                 id="excel_input"
-                                                onChange={handleFile}
+                                                onChange={onUpload}
                                                 accept=".png"
                                                 type="file"
                                                 style={{ display: "none" }}
@@ -80,7 +147,7 @@ function UploadCertImage({handleActiveLink}){
                                     <div className="excel_form">
                                         <input
                                             className="excel_input_lg"
-                                            onChange={handleFile}
+                                            onChange={onUpload}
                                             accept=".png"
                                             type="file"
                                         />

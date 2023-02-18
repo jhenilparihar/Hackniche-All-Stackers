@@ -494,7 +494,9 @@ class App extends Component {
                   <Route
                     path={"verify-bonafide-image"}
                     element={
-                      <UploadCertImage  />
+                      <UploadCertImage 
+                      bonafiedExist={this.bonafiedExist}
+                      />
                     }
                   />
                   <Route
