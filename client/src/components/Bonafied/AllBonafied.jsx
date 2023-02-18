@@ -29,7 +29,7 @@ class AllBonafied extends Component {
           <div className="upper-div">
             <div className="tag-div">
               <span class="cer1">Certificates</span>
-              <h1 class="cer2">Certificates</h1>
+              <h1 class="cer2">Bonfied Certificates</h1>
             </div>
           </div>
           <div className="lower-div">

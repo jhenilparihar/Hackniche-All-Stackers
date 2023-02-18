@@ -137,17 +137,14 @@ class Application extends Component {
           </div>
           <div className="table-div">
             <Table
-            //   allCert={this.props.allCert}
+              //   allCert={this.props.allCert}
               addExtraCert={this.props.addExtraCert}
               bonafiedExist={this.props.bonafiedExist}
+              sendEmail={this.props.sendEmail}
             />
 
             <div className="pagination-div">
-                <Pagination
-                  postsPerPage={10}
-                  totalPosts={10}
-                />
-              
+              <Pagination postsPerPage={10} totalPosts={10} />
             </div>
           </div>
         </div>

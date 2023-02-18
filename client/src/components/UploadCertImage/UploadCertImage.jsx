@@ -84,7 +84,12 @@ function UploadCertImage({handleActiveLink,bonafiedExist}){
             const imageLink = `https://alchemy.mypinata.cloud/ipfs/${imageIPFS}/`;
     console.log(imageLink);
     const rese=await bonafiedExist(imageIPFS);
-    console.log(rese);
+    if(rese==true){
+        console.log(imageLink);
+    }else{
+        console.log("NO MATCHING")
+    }
+    // console.log(rese);
         //     image.style.height = "100%";
         //   image.style.width = "100%";
         //   fileInput.style.opacity = "0";

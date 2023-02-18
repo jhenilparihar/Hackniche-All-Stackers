@@ -22,6 +22,7 @@ import {
   WhatsappIcon,
   FacebookIcon,
 } from "react-share";
+import CertificateNotExist from "../CertificateNotExist/CertificateNotExist";
 
 const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
   useEffect(() => handleActiveLink(""));
@@ -29,7 +30,7 @@ const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
   const { hash } = useParams();
   console.log("hashvalue", hash);
   const shareUrl = "http://localhost:3000/certificate/" + hash;
-  let cert;
+  let cert = null;
   AllCert.forEach((c) => {
     if (c.transactionHash === hash) {
       cert = c;
@@ -109,180 +110,194 @@ const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
     setMounted(true);
   }, []);
 
+  console.log(cert);
+
   return (
     <div className="root-div">
-      {cert !== undefined ? (
+      {cert == null ? (
+        <CertificateNotExist />
+      ) : (
         <>
-          <div id="printcertificate">
-            <div id="flex-section">
-              <div id="innerdiv">
-                <div id="template">
-                  <img class="image_template" src={bgImage} alt="" />
-                </div>
-                <div id="clg-name">
-                  <h1>Dwakadas J. Sanghvi College Of Engineering</h1>
-                </div>
-                <div id="recognition-text">
-                  <h1>CERTIFICATE</h1>
-                  <h3>OF GRADUATION</h3>
-                </div>
-                <div id="passoutyear-div">
-                  <h1>VERIFIED</h1>
-                  <h1>{cert.passoutYear.toNumber()}</h1>
-                </div>
-                <div id="normal-text">
-                  <h1>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aliquam cursus tempus, quam viverra sit augue faucibus.
-                    Lobortis felis facilisis tortor mol.
-                  </h1>
-                </div>
-                <div className="sign-div">
-                  <div className="sign-name">
-                    <h1>Hari Vasudevan</h1>
-                    <hr />
-                    <h3>Principal</h3>
-                  </div>
-                  <div className="sign-name">
-                    <h1>Meera Godse</h1>
-                    <hr />
-                    <h3>Vice Principal</h3>
-                  </div>
-                </div>
-                <div className="last-div">
-                  <div className="sign-name">
-                    {qr && (
-                      <>
-                        <img width={60} height={60} src={qr} alt="Qr Code" />
-                      </>
-                    )}
-                  </div>
-                  <div className="sign-name">
-                    <h3>Issue date</h3>
-                    <h4>{cert.issueDate}</h4>
-                  </div>
-                </div>
-
-                <div id="text-name">
-                  <h1>{cert.name}</h1>
-                </div>
-                <div className="cert-hash">
-                  <h3>Certificate ID: </h3>
-                  <h4> {cert.transactionHash}</h4>
-                </div>
-              </div>
-              <div id="download-section">
-                <h1>Issued by</h1>
-                <hr id="hr" />
-                <h2>Dwakadas J. Sanghvi College Of Engineering</h2>
-                <h1 class="action">Actions</h1>
-
-                <hr id="hr" />
-                <h3>Download</h3>
-                <div class="download-btns">
-                  <div class="btn2">
-                    <button
-                      id="image-btn"
-                      class="image-btn"
-                      onClick={() => imageprint(cert.name)}
-                    >
-                      As Image
-                      <img id="photo-svg" src={photo} alt="" />
-                      <img id="photo-svg" src={download} alt="" />
-                    </button>
-                    <button
-                      class="pdf-btn"
-                      id="image-btn"
-                      onClick={() => onclickprint(cert.name)}
-                    >
-                      As Pdf
-                      <img id="photo-svg" src={pdf} alt="" />
-                      <img id="photo-svg" src={download2} alt="" />
-                    </button>
-                    {qr && (
-                      <>
-                        <a class="btn2" href={qr} download="qrcode.png">
-                          <button class="image-btn" id="image-btn">
-                            Download Qr code
-                            <img id="photo-svg" src={qrcode} alt="" />
-                            <img id="photo-svg" src={download} alt="" />
-                          </button>
-                        </a>
-                      </>
-                    )}
-                    <button
-                      id="image-btn"
-                      class="linkedin-btn email"
-                      onClick={() =>
-                        sendEmail(
-                          cert.name,
-                          cert.email,
-                          "http://localhost:3000/certificate/" + cert.transactionHash,
-                          cert.course
-                        )
-                      }
-                    >
-                      Send Email
-                      <img id="photo-svg" src={email} alt="" />
-                    </button>
-                    <button id="image-btn" class="linkedin-btn">
-                      Add to LinkedIn
-                      <img id="photo-svg" src={linkedin} alt="" />
-                    </button>
-                  </div>
-                  <hr id="hr2" />
-                  <h3>Share</h3>
-                  <div>
-                    <div id="share-btns">
-                      <div class="social-btns">
-                        <FacebookShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                        >
-                          <FacebookIcon size={35} />
-                        </FacebookShareButton>
+          {cert !== undefined ? (
+            <>
+              <div id="printcertificate">
+                <div id="flex-section">
+                  <div id="innerdiv">
+                    <div id="template">
+                      <img class="image_template" src={bgImage} alt="" />
+                    </div>
+                    <div id="clg-name">
+                      <h1>Dwakadas J. Sanghvi College Of Engineering</h1>
+                    </div>
+                    <div id="recognition-text">
+                      <h1>CERTIFICATE</h1>
+                      <h3>OF GRADUATION</h3>
+                    </div>
+                    <div id="passoutyear-div">
+                      <h1>VERIFIED</h1>
+                      <h1>{cert.passoutYear.toNumber()}</h1>
+                    </div>
+                    <div id="normal-text">
+                      <h1>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Aliquam cursus tempus, quam viverra sit augue faucibus.
+                        Lobortis felis facilisis tortor mol.
+                      </h1>
+                    </div>
+                    <div className="sign-div">
+                      <div className="sign-name">
+                        <h1>Hari Vasudevan</h1>
+                        <hr />
+                        <h3>Principal</h3>
                       </div>
-
-                      <div class="social-btns">
-                        <WhatsappShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                          class="social-btns"
-                        >
-                          <WhatsappIcon size={35} />
-                        </WhatsappShareButton>
+                      <div className="sign-name">
+                        <h1>Meera Godse</h1>
+                        <hr />
+                        <h3>Vice Principal</h3>
                       </div>
-
-                      <div class="social-btns">
-                        <LinkedinShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                          class="social-btns"
-                        >
-                          <LinkedinIcon size={35} />
-                        </LinkedinShareButton>
+                    </div>
+                    <div className="last-div">
+                      <div className="sign-name">
+                        {qr && (
+                          <>
+                            <img
+                              width={60}
+                              height={60}
+                              src={qr}
+                              alt="Qr Code"
+                            />
+                          </>
+                        )}
                       </div>
-                      <div class="social-btns">
-                        <TwitterShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                          class="social-btns"
+                      <div className="sign-name">
+                        <h3>Issue date</h3>
+                        <h4>{cert.issueDate}</h4>
+                      </div>
+                    </div>
+
+                    <div id="text-name">
+                      <h1>{cert.name}</h1>
+                    </div>
+                    <div className="cert-hash">
+                      <h3>Certificate ID: </h3>
+                      <h4> {cert.transactionHash}</h4>
+                    </div>
+                  </div>
+                  <div id="download-section">
+                    <h1>Issued by</h1>
+                    <hr id="hr" />
+                    <h2>Dwakadas J. Sanghvi College Of Engineering</h2>
+                    <h1 class="action">Actions</h1>
+
+                    <hr id="hr" />
+                    <h3>Download</h3>
+                    <div class="download-btns">
+                      <div class="btn2">
+                        <button
+                          id="image-btn"
+                          class="image-btn"
+                          onClick={() => imageprint(cert.name)}
                         >
-                          <TwitterIcon size={35} />
-                        </TwitterShareButton>
+                          As Image
+                          <img id="photo-svg" src={photo} alt="" />
+                          <img id="photo-svg" src={download} alt="" />
+                        </button>
+                        <button
+                          class="pdf-btn"
+                          id="image-btn"
+                          onClick={() => onclickprint(cert.name)}
+                        >
+                          As Pdf
+                          <img id="photo-svg" src={pdf} alt="" />
+                          <img id="photo-svg" src={download2} alt="" />
+                        </button>
+                        {qr && (
+                          <>
+                            <a class="btn2" href={qr} download="qrcode.png">
+                              <button class="image-btn" id="image-btn">
+                                Download Qr code
+                                <img id="photo-svg" src={qrcode} alt="" />
+                                <img id="photo-svg" src={download} alt="" />
+                              </button>
+                            </a>
+                          </>
+                        )}
+                        <button
+                          id="image-btn"
+                          class="linkedin-btn email"
+                          onClick={() =>
+                            sendEmail(
+                              cert.name,
+                              cert.email,
+                              "http://localhost:3000/certificate/" +
+                                cert.transactionHash,
+                              cert.course
+                            )
+                          }
+                        >
+                          Send Email
+                          <img id="photo-svg" src={email} alt="" />
+                        </button>
+                        <button id="image-btn" class="linkedin-btn">
+                          Add to LinkedIn
+                          <img id="photo-svg" src={linkedin} alt="" />
+                        </button>
+                      </div>
+                      <hr id="hr2" />
+                      <h3>Share</h3>
+                      <div>
+                        <div id="share-btns">
+                          <div class="social-btns">
+                            <FacebookShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                            >
+                              <FacebookIcon size={35} />
+                            </FacebookShareButton>
+                          </div>
+
+                          <div class="social-btns">
+                            <WhatsappShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                              class="social-btns"
+                            >
+                              <WhatsappIcon size={35} />
+                            </WhatsappShareButton>
+                          </div>
+
+                          <div class="social-btns">
+                            <LinkedinShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                              class="social-btns"
+                            >
+                              <LinkedinIcon size={35} />
+                            </LinkedinShareButton>
+                          </div>
+                          <div class="social-btns">
+                            <TwitterShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                              class="social-btns"
+                            >
+                              <TwitterIcon size={35} />
+                            </TwitterShareButton>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          ) : null}
         </>
-      ) : null}
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ import linkedin from "./assets/linkedin.svg";
 import qrcode from "./assets/qr_code.svg";
 import email from "./assets/email.svg";
 import bgImage from "./assets/ptemplate.png";
+import CertificateNotExist from "../CertificateNotExist/CertificateNotExist";
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -29,7 +30,7 @@ const ParticipationTemplate = ({ AllCert, sendEmail, handleActiveLink }) => {
   const { hash } = useParams();
   console.log("hashvalue", hash);
   const shareUrl = "http://localhost:3000/event-certificate/" + hash;
-  let cert;
+  let cert = null;
   AllCert.forEach((c) => {
     if (c.transactionHash == hash) {
       cert = c;
@@ -113,174 +114,185 @@ const ParticipationTemplate = ({ AllCert, sendEmail, handleActiveLink }) => {
 
   return (
     <div className="root-div">
-      {cert !== undefined ? (
+      {cert == null ? (
+        <CertificateNotExist />
+      ) : (
         <>
-          <div id="printcertificate">
-            <div id="flex-section">
-              <div id="innerdiv">
-                <div id="template">
-                  <img class="image_template" src={bgImage} alt="" />
-                </div>
-                <div id="qrcode">
-                  <div className="sign-name">
-                    {qr && (
-                      <>
-                        <img width={80} height={80} src={qr} alt="Qr Code" />
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div id="ptext">
-                  <h1>CERTIFICATE</h1>
-                </div>
-                <div id="ptext21">
-                  <h1>Of Participant in </h1>
-                </div>
-                <div id="proud">
-                  <h1>PROUDLY PRESENTED TO </h1>
-                </div>
-                <div id="pname">
-                  <h1>{cert.name}</h1>
-                </div>
-                <div id="ptext3">
-                  <div id="innerptext">
-                    <h1>
-                      {" "}
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Rhoncus erat a cras non netus fringilla etiam.
-                    </h1>
-                  </div>
-                </div>
-                <div id="issuediv">
-                  <h1>IssueDate</h1>
-                  <h2>{cert.issueDate}</h2>
-                </div>
-                <div id="eventdiv">
-                  <h1>EventDate</h1>
-                  <h2>{cert.eventDate}</h2>
-                </div>
-                <div id="eventnamediv">
-                  <h2>{cert.eventName}</h2>
-                </div>
-                <div className="cert-hash1">
-                  <h3>Certificate ID: </h3>
-                  <h4> {cert.transactionHash}</h4>
-                </div>
-              </div>
-              <div id="download-section">
-                <h1>Issued by</h1>
-                <hr id="hr" />
-                <h2>Dwakadas J. Sanghvi College Of Engineering</h2>
-                <h1 class="action">Actions</h1>
-
-                <hr id="hr" />
-                <h3>Download</h3>
-                <div class="download-btns">
-                  <div class="btn2">
-                    <button
-                      id="image-btn"
-                      class="image-btn"
-                      onClick={() => imageprint(cert.name)}
-                    >
-                      As Image
-                      <img id="photo-svg" src={photo} alt="" />
-                      <img id="photo-svg" src={download} alt="" />
-                    </button>
-                    <button
-                      class="pdf-btn"
-                      id="image-btn"
-                      onClick={() => onclickprint(cert.name)}
-                    >
-                      As Pdf
-                      <img id="photo-svg" src={pdf} alt="" />
-                      <img id="photo-svg" src={download2} alt="" />
-                    </button>
-                    {qr && (
-                      <>
-                        <a class="btn2" href={qr} download="qrcode.png">
-                          <button class="image-btn" id="image-btn">
-                            Download Qr code
-                            <img id="photo-svg" src={qrcode} alt="" />
-                            <img id="photo-svg" src={download} alt="" />
-                          </button>
-                        </a>
-                      </>
-                    )}
-                    <button
-                      id="image-btn"
-                      class="linkedin-btn email"
-                      onClick={() =>
-                        sendEmail(
-                          cert.name,
-                          cert.email,
-                          "http://localhost:3000/event-certificate/" +
-                            cert.transactionHash,
-                          cert.course
-                        )
-                      }
-                    >
-                      Send Email
-                      <img id="photo-svg" src={email} alt="" />
-                    </button>
-                    <button id="image-btn" class="linkedin-btn">
-                      Add to LinkedIn
-                      <img id="photo-svg" src={linkedin} alt="" />
-                    </button>
-                  </div>
-                  <hr id="hr2" />
-                  <h3>Share</h3>
-                  <div>
-                    <div id="share-btns">
-                      <div class="social-btns">
-                        <FacebookShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                        >
-                          <FacebookIcon size={35} />
-                        </FacebookShareButton>
+          {cert !== undefined ? (
+            <>
+              <div id="printcertificate">
+                <div id="flex-section">
+                  <div id="innerdiv">
+                    <div id="template">
+                      <img class="image_template" src={bgImage} alt="" />
+                    </div>
+                    <div id="qrcode">
+                      <div className="sign-name">
+                        {qr && (
+                          <>
+                            <img
+                              width={80}
+                              height={80}
+                              src={qr}
+                              alt="Qr Code"
+                            />
+                          </>
+                        )}
                       </div>
+                    </div>
 
-                      <div class="social-btns">
-                        <WhatsappShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                          class="social-btns"
-                        >
-                          <WhatsappIcon size={35} />
-                        </WhatsappShareButton>
+                    <div id="ptext">
+                      <h1>CERTIFICATE</h1>
+                    </div>
+                    <div id="ptext21">
+                      <h1>Of Participant in </h1>
+                    </div>
+                    <div id="proud">
+                      <h1>PROUDLY PRESENTED TO </h1>
+                    </div>
+                    <div id="pname">
+                      <h1>{cert.name}</h1>
+                    </div>
+                    <div id="ptext3">
+                      <div id="innerptext">
+                        <h1>
+                          {" "}
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Rhoncus erat a cras non netus fringilla etiam.
+                        </h1>
                       </div>
+                    </div>
+                    <div id="issuediv">
+                      <h1>IssueDate</h1>
+                      <h2>{cert.issueDate}</h2>
+                    </div>
+                    <div id="eventdiv">
+                      <h1>EventDate</h1>
+                      <h2>{cert.eventDate}</h2>
+                    </div>
+                    <div id="eventnamediv">
+                      <h2>{cert.eventName}</h2>
+                    </div>
+                    <div className="cert-hash1">
+                      <h3>Certificate ID: </h3>
+                      <h4> {cert.transactionHash}</h4>
+                    </div>
+                  </div>
+                  <div id="download-section">
+                    <h1>Issued by</h1>
+                    <hr id="hr" />
+                    <h2>Dwakadas J. Sanghvi College Of Engineering</h2>
+                    <h1 class="action">Actions</h1>
 
-                      <div class="social-btns">
-                        <LinkedinShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                          class="social-btns"
+                    <hr id="hr" />
+                    <h3>Download</h3>
+                    <div class="download-btns">
+                      <div class="btn2">
+                        <button
+                          id="image-btn"
+                          class="image-btn"
+                          onClick={() => imageprint(cert.name)}
                         >
-                          <LinkedinIcon size={35} />
-                        </LinkedinShareButton>
+                          As Image
+                          <img id="photo-svg" src={photo} alt="" />
+                          <img id="photo-svg" src={download} alt="" />
+                        </button>
+                        <button
+                          class="pdf-btn"
+                          id="image-btn"
+                          onClick={() => onclickprint(cert.name)}
+                        >
+                          As Pdf
+                          <img id="photo-svg" src={pdf} alt="" />
+                          <img id="photo-svg" src={download2} alt="" />
+                        </button>
+                        {qr && (
+                          <>
+                            <a class="btn2" href={qr} download="qrcode.png">
+                              <button class="image-btn" id="image-btn">
+                                Download Qr code
+                                <img id="photo-svg" src={qrcode} alt="" />
+                                <img id="photo-svg" src={download} alt="" />
+                              </button>
+                            </a>
+                          </>
+                        )}
+                        <button
+                          id="image-btn"
+                          class="linkedin-btn email"
+                          onClick={() =>
+                            sendEmail(
+                              cert.name,
+                              cert.email,
+                              "http://localhost:3000/event-certificate/" +
+                                cert.transactionHash,
+                              cert.course
+                            )
+                          }
+                        >
+                          Send Email
+                          <img id="photo-svg" src={email} alt="" />
+                        </button>
+                        <button id="image-btn" class="linkedin-btn">
+                          Add to LinkedIn
+                          <img id="photo-svg" src={linkedin} alt="" />
+                        </button>
                       </div>
-                      <div class="social-btns">
-                        <TwitterShareButton
-                          url={shareUrl}
-                          quote={"Title or jo bhi aapko likhna ho"}
-                          hashtag={"#portfolio..."}
-                          class="social-btns"
-                        >
-                          <TwitterIcon size={35} />
-                        </TwitterShareButton>
+                      <hr id="hr2" />
+                      <h3>Share</h3>
+                      <div>
+                        <div id="share-btns">
+                          <div class="social-btns">
+                            <FacebookShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                            >
+                              <FacebookIcon size={35} />
+                            </FacebookShareButton>
+                          </div>
+
+                          <div class="social-btns">
+                            <WhatsappShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                              class="social-btns"
+                            >
+                              <WhatsappIcon size={35} />
+                            </WhatsappShareButton>
+                          </div>
+
+                          <div class="social-btns">
+                            <LinkedinShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                              class="social-btns"
+                            >
+                              <LinkedinIcon size={35} />
+                            </LinkedinShareButton>
+                          </div>
+                          <div class="social-btns">
+                            <TwitterShareButton
+                              url={shareUrl}
+                              quote={"Title or jo bhi aapko likhna ho"}
+                              hashtag={"#portfolio..."}
+                              class="social-btns"
+                            >
+                              <TwitterIcon size={35} />
+                            </TwitterShareButton>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          ) : null}
         </>
-      ) : null}
+      )}
     </div>
   );
 };

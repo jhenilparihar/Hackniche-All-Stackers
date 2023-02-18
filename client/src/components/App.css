@@ -4,6 +4,17 @@
 .root-div {
   min-height: calc(100vh - 117px);
 }
+.certificate-not-exist {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+.loading-div {
+  min-height: 90vh;
+}
 
 body {
   background-color: #fff;
@@ -432,12 +443,12 @@ body {
   align-items: flex-end;
 }
 .tag-div {
-  width: 10%;
+  width: 20%;
   height: 100%;
   background-color: #ffffff;
 }
 .tag-div {
-  width: 100px;
+  width: 250px;
 }
 
 .cer1 {

@@ -21,19 +21,22 @@ class Navbar extends Component {
                 <div class="navbar-nav">
                   {this.props.isAdmin ? (
                     <>
+                      <Link to="/applications" id="all2" class="navbar-link">
+                        All Applications
+                      </Link>
                       <Link to="/dashboard" id="all" class="navbar-link">
                         Dashboard
                       </Link>
                       <Link
                         to="/all-bonafied"
-                        id="query"
+                        id="all3"
                         class="navbar-link"
                       >
                         Bonafied Certificate
                       </Link>
-                      <Link to="/event-certificates" id="all2" class="navbar-link">
+                      {/* <Link to="/event-certificates" id="all2" class="navbar-link">
                         Event Certificate
-                      </Link>
+                      </Link> */}
                       <Link
                         to="/certificates/recipients"
                         id="create"
@@ -51,6 +54,21 @@ class Navbar extends Component {
                       </Link>
                     </>
                   ) : (
+                    <>
+                    <Link
+                      to="/application-form"
+                      id="query1"
+                      class="navbar-link"
+                    >
+                      Request for Certificate
+                    </Link>
+                    <Link
+                      to="/verify-bonafide-image"
+                      id="query1"
+                      class="navbar-link"
+                    >
+                      Verify Certificate
+                    </Link>
                     <Link
                       to="/findmycertificate"
                       id="query"
@@ -58,6 +76,7 @@ class Navbar extends Component {
                     >
                       Lost your Certficate?
                     </Link>
+                    </>
                   )}
                 </div>
               </div>

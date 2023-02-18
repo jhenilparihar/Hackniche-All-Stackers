@@ -193,7 +193,7 @@ class EventTable extends Component {
                     </>
                   ) : (
                     <>
-                      <h5>{this.props.allCert.length} Certificates</h5>
+                      <h5>{this.props.allCert.length}Event Certificates</h5>
                     </>
                   )}
                 </>

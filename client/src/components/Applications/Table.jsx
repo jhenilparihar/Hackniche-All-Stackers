@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Add, Edit, Delete, Confirm, Cancel } from "./Svg";
 import axios from "axios";
-import { Buffer } from 'buffer';
-
-import CertBaseSVG from '../Others/assets/DomicileCert.svg'
+import { Buffer } from "buffer";
+import Loading from "../Loading/Loading";
+import CertBaseSVG from "../Others/assets/DomicileCert.svg";
 
 // import { create } from "ipfs-http-client";
 // import { Buffer } from "buffer";
@@ -12,7 +12,7 @@ import CertBaseSVG from '../Others/assets/DomicileCert.svg'
 //   const projectSecret = "d2ad2619c1b0e37610b600143bf589af";
 //   const auth =
 //     "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  
+
 //   const client = create({
 //     host: "ipfs.infura.io",
 //     port: 5001,
@@ -22,16 +22,17 @@ import CertBaseSVG from '../Others/assets/DomicileCert.svg'
 //     },
 //   });
 
-
 class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        applicationData: []
-    }
+      applicationData: [],
+      loading: false,
+    };
   }
   uploadFileToIPFS = async (fileBlob) => {
-    const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE5NzkzNUM4NUQxODZmNEJCN2NlN2U1RjhGYjY4NWQ4NUJlY0ZkREEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE5OTY3NzU0MywibmFtZSI6ImhhcnNoQDIzMDQifQ.gEWeVVohValCGdXRyGorzcYkc0umfpjcJOsPJxDMkQU";
+    const apiKey =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE5NzkzNUM4NUQxODZmNEJCN2NlN2U1RjhGYjY4NWQ4NUJlY0ZkREEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3NjE5OTY3NzU0MywibmFtZSI6ImhhcnNoQDIzMDQifQ.gEWeVVohValCGdXRyGorzcYkc0umfpjcJOsPJxDMkQU";
 
     var config = {
       method: "post",
@@ -74,219 +75,244 @@ class Table extends Component {
         console.log(res);
         console.log(b);
         console.log(ab);
-  
+
         const imageblob = new Blob([ab], { type: "image/jpg" });
         // Upload image to IPFS
         const imageUploadResponse = await this.uploadFileToIPFS(imageblob);
         const imageIPFS = imageUploadResponse.value.cid;
         const imageLink = `https://alchemy.mypinata.cloud/ipfs/${imageIPFS}/`;
- console.log(imageLink)
-      
-      }
-
-      
+        console.log(imageLink);
+      };
     } catch (error) {
       console.log("Error uploading file: ", error);
     }
   };
-  
-  
+
   fetchApplications = async () => {
-      const response = await fetch(
-          "http://localhost:8080/applications?organizationId=DJSCE"
-      )
-      if (response.ok) {
-          const resData = await response.json()
-          const {applicationData} = resData
+    const response = await fetch(
+      "http://localhost:8080/applications?organizationId=DJSCE"
+    );
+    if (response.ok) {
+      const resData = await response.json();
+      const { applicationData } = resData;
 
-          let filteredApplicationData = applicationData.filter(app => {
-              return app.applicationstatus == "IN_PROGRESS"
-          })
+      let filteredApplicationData = applicationData.filter((app) => {
+        return app.applicationstatus == "IN_PROGRESS";
+      });
 
-          filteredApplicationData = filteredApplicationData.sort((a, b) => {
-              return (
-                  new Date(a.applicationdate)
-                  <
-                  new Date(b.applicationdate)
-              )
-          })
+      filteredApplicationData = filteredApplicationData.sort((a, b) => {
+        return new Date(a.applicationdate) < new Date(b.applicationdate);
+      });
 
-          this.setState({
-              applicationData: filteredApplicationData
-          })
+      this.setState({
+        applicationData: filteredApplicationData,
+      });
+    }
+  };
+
+  componentWillMount() {
+    this.fetchApplications();
+  }
+
+  approveApplication = async (
+    applicationid,
+    applicantname,
+    applicantgroup,
+    applicantemail,
+    applicantuniqueid,
+    applicantiontype
+  ) => {
+    await this.createCertImage(
+      applicantname,
+      applicantgroup,
+      applicantuniqueid,
+      (certHash) => {
+        this.props.addExtraCert(
+          applicantname,
+          applicantgroup,
+          applicantemail,
+          applicantuniqueid,
+          applicantiontype,
+          certHash
+        );
       }
-  }
+    );
 
-  componentWillMount(){
-    this.fetchApplications()
-  }
-
-  approveApplication = async (applicationid, applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype) => {
-    await this.createCertImage(applicantname, applicantgroup, applicantuniqueid, (certHash) => {
-      this.props.addExtraCert(applicantname,applicantgroup,applicantemail,applicantuniqueid,applicantiontype, certHash)
-      
-    })
-    
-
-    const nowTs = (new Date()).getTime()
+    const nowTs = new Date().getTime();
 
     const randChars = Array.from(applicantname).sort((a, b) => {
-        return a.charCodeAt(0) < b.charCodeAt(0)
-    })
+      return a.charCodeAt(0) < b.charCodeAt(0);
+    });
 
-    
-
-    const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`
+    const finalTokenId = `0x${applicationid}${nowTs}${randChars.join()}`;
 
     const resp = await fetch(
-        `http://localhost:8080/applications/${applicationid}/approve`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                chainToken: finalTokenId
-            })
-        }
-    )
+      `http://localhost:8080/applications/${applicationid}/approve`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chainToken: finalTokenId,
+        }),
+      }
+    );
 
-    if (resp.ok){
-        const respJson = await resp.json()
-        if (respJson.actionStatus == "SUCCESS"){
-            this.setState((prevState) => {
-                return prevState.applicationData.map((application) => {
-                    if (application.applicationid === applicationid){
-                        return {
-                            ...application,
-                            applicationstatus: "APPROVED"
-                        }
-                    } else {
-                        return application;
-                    }
-                })
-            })
-        }
+    if (resp.ok) {
+      const respJson = await resp.json();
+      if (respJson.actionStatus == "SUCCESS") {
+        this.setState((prevState) => {
+          return prevState.applicationData.map((application) => {
+            if (application.applicationid === applicationid) {
+              return {
+                ...application,
+                applicationstatus: "APPROVED",
+              };
+            } else {
+              return application;
+            }
+          });
+        });
+      }
     }
-  }
+  };
 
   rejectApplication = async (applicationid) => {
-      const resp = await fetch(
-          `http://localhost:8080/applications/${applicationid}/reject`,
-          {
-              method: "POST"
-          }
-      )
-
-      if (resp.ok){
-          const respJson = await resp.json()
-          if (respJson.actionStatus == "SUCCESS"){
-              this.setState({
-                  applicationData: this.state.applicationData.filter((app) => {
-                      return app.applicationid != applicationid
-                  })
-            })
-          }
+    const resp = await fetch(
+      `http://localhost:8080/applications/${applicationid}/reject`,
+      {
+        method: "POST",
       }
-  }
+    );
+
+    if (resp.ok) {
+      const respJson = await resp.json();
+      if (respJson.actionStatus == "SUCCESS") {
+        this.setState({
+          applicationData: this.state.applicationData.filter((app) => {
+            return app.applicationid != applicationid;
+          }),
+        });
+      }
+    }
+  };
 
   /**
    * @return {Buffer}
    */
-  async createCertImage(appName, appGroup, appUniqueId, certHashCallback){
-      const certCanvas = new OffscreenCanvas(900, 600)
-      const canvasContext = certCanvas.getContext("2d")
+  async createCertImage(appName, appGroup, appUniqueId, certHashCallback) {
+    const certCanvas = new OffscreenCanvas(900, 600);
+    const canvasContext = certCanvas.getContext("2d");
 
-      const certBaseImg = new Image(900, 600)
-      certBaseImg.src = CertBaseSVG
+    const certBaseImg = new Image(900, 600);
+    certBaseImg.src = CertBaseSVG;
 
-      certBaseImg.onload = async () => {
-          canvasContext.drawImage(
-              certBaseImg, 0, 0, 900, 600
-          )
+    certBaseImg.onload = async () => {
+      canvasContext.drawImage(certBaseImg, 0, 0, 900, 600);
 
-          canvasContext.font = "24px Roboto"
+      canvasContext.font = "24px Roboto";
 
-          canvasContext.fillText(
-              appName,
-              450, 205
-          )
+      canvasContext.fillText(appName, 450, 205);
 
-          canvasContext.fillText(
-              appUniqueId,
-              500, 325
-          )
+      canvasContext.fillText(appUniqueId, 500, 325);
 
-          canvasContext.font = "16px "
+      canvasContext.font = "16px ";
 
-          canvasContext.fillText(
-              appGroup,
-              385, 365
-          )
+      canvasContext.fillText(appGroup, 385, 365);
 
-          const canvasBlob = await certCanvas.convertToBlob()
-          const imageUploadResponse = await this.uploadFileToIPFS(canvasBlob);
-          const imageIPFS = imageUploadResponse.value.cid;
-          console.log(imageIPFS)
-          const imageLink = `https://alchemy.mypinata.cloud/ipfs/${imageIPFS}/`;
-          console.log(imageLink)
-          certHashCallback(imageIPFS);
-          /* CALL BLOB FN HERE */
-      }
-
-
+      const canvasBlob = await certCanvas.convertToBlob();
+      const imageUploadResponse = await this.uploadFileToIPFS(canvasBlob);
+      const imageIPFS = imageUploadResponse.value.cid;
+      console.log(imageIPFS);
+      const imageLink = `https://alchemy.mypinata.cloud/ipfs/${imageIPFS}/`;
+      console.log(imageLink);
+      certHashCallback(imageIPFS);
+      /* CALL BLOB FN HERE */
+    };
   }
 
   render() {
     return (
       <>
-        <div className="table-btn">
-          <h5> Applications</h5>
-        </div>
-        <div className="hr2"></div>
-        <div className="tab">
-           {this.state.applicationData.length ? (
+        {this.state.loading ? (
+          <Loading />
+        ) : (
           <>
-            <table className="content-table">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>Status</th>
-                  <th>Group</th>
-                  <th>Application Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.applicationData.map((application) => (
-                <tr className={"commontr tr"}>
-                  <td>
-                    <a href={"certificate/"}>{application.applicationid}</a>
-                  </td>
-                  <td>{application.applicantname}</td>
-                  <td>{application.applicationstatus.replace("_", " ")}</td>
-                  <td>{application.applicantgroup}</td>
-                  <td>{new Date(application.applicationdate).toLocaleDateString()}</td>
-                  <td>
-                    <div className="">
-                      <button name="conform-edit" className="action-btn" onClick={()=>{this.approveApplication(
-                          application.applicationid, application.applicantname,application.applicantgroup,application.applicantemail,application.applicantuniqueid,application.applicationtype
-                      )}}>
-                        <Confirm />
-                      </button>
-                      <button name="cancel-edit" className="action-btn" onClick={() => this.rejectApplication(application.applicationid)}>
-                        <Cancel />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                    ))}
-              </tbody>
-            </table>
+            <div className="table-btn">
+              <h5> Applications</h5>
+            </div>
+            <div className="hr2"></div>
+            <div className="tab">
+              {this.state.applicationData.length ? (
+                <>
+                  <table className="content-table">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Group</th>
+                        <th>Application Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.applicationData.map((application) => (
+                        <tr className={"commontr tr"}>
+                          <td>
+                            <a href="">{application.applicationid}</a>
+                          </td>
+                          <td>{application.applicantname}</td>
+                          <td>
+                            {application.applicationstatus.replace("_", " ")}
+                          </td>
+                          <td>{application.applicantgroup}</td>
+                          <td>
+                            {new Date(
+                              application.applicationdate
+                            ).toLocaleDateString()}
+                          </td>
+                          <td>
+                            <div className="">
+                              <button
+                                name="conform-edit"
+                                className="action-btn"
+                                onClick={() => {
+                                  this.approveApplication(
+                                    application.applicationid,
+                                    application.applicantname,
+                                    application.applicantgroup,
+                                    application.applicantemail,
+                                    application.applicantuniqueid,
+                                    application.applicationtype
+                                  );
+                                }}
+                              >
+                                <Confirm />
+                              </button>
+                              <button
+                                name="cancel-edit"
+                                className="action-btn"
+                                onClick={() =>
+                                  this.rejectApplication(
+                                    application.applicationid
+                                  )
+                                }
+                              >
+                                <Cancel />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </>
+              ) : null}
+            </div>
           </>
-           ) : null}
-        </div>
+        )}
       </>
     );
   }

@@ -272,7 +272,7 @@ class App extends Component {
 
     return exi;
   };
-  
+
   bonafiedExist = async (hash) => {
     const res = await this.state.EcertoContract.methods
       .BonafiedHashExist(hash)
@@ -303,11 +303,11 @@ class App extends Component {
   // uint256 _SAP,
   // string memory _reason,
   // string memory _type
-  addExtraCert = async (name, course, email, sap, type,Ihash) => {
+  addExtraCert = async (name, course, email, sap, type, Ihash) => {
     const issueDate = await this.getCuurentDate();
-    console.log(name, course, email, sap, type,issueDate,Ihash);
+    console.log(name, course, email, sap, type, issueDate, Ihash);
     this.state.EcertoContract.methods
-      .addExtraCertificate(name, course, email, sap, type,issueDate,Ihash)
+      .addExtraCertificate(name, course, email, sap, type, issueDate, Ihash)
       .send({ from: this.state.accountAddress })
       .on("confirmation", () => {
         localStorage.setItem(this.state.accountAddress, new Date().getTime());
@@ -333,11 +333,44 @@ class App extends Component {
         "e9JuUEfd3BAc8hdQi"
       )
       .then(
-        function(response) {
+        function (response) {
           console.log("SUCCESS!", response.status, response.text);
           window.location.reload();
         },
-        function(error) {
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      );
+  };
+
+  sendEmail2 = async (name, email, token, certificateLink) => {
+    console.log("Hello")
+    var sendparams = {
+      to_name: name,
+      message: token,
+      certificateLink: certificateLink,
+      reply_to: email,
+    };
+    emailjs
+      .send(
+        "service_ysr730a",
+        "template_ss11t7y",
+        sendparams,
+        "e9JuUEfd3BAc8hdQi"
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
           console.log("FAILED...", error);
         }
       );
@@ -383,9 +416,10 @@ class App extends Component {
                       <Route
                         path="/applications"
                         element={
-                          <Application 
-                          addExtraCert={this.addExtraCert} 
-                          bonafiedExist={this.bonafiedExist}
+                          <Application
+                            addExtraCert={this.addExtraCert}
+                            bonafiedExist={this.bonafiedExist}
+                            sendEmail={this.sendEmail2}
                           />
                         }
                       />
@@ -494,9 +528,7 @@ class App extends Component {
                   <Route
                     path={"verify-bonafide-image"}
                     element={
-                      <UploadCertImage 
-                      bonafiedExist={this.bonafiedExist}
-                      />
+                      <UploadCertImage bonafiedExist={this.bonafiedExist} />
                     }
                   />
                   <Route
@@ -551,14 +583,13 @@ class App extends Component {
                   />
                   <Route
                     path="application-form"
-                    element={<ApplicationForm accountAddress={this.state.accountAddress} />}
-                  />
-                  <Route
-                    path="*"
                     element={
-                      <NoPage handleActiveLink={this.handleActiveLink} />
+                      <ApplicationForm
+                        accountAddress={this.state.accountAddress}
+                      />
                     }
                   />
+                  <Route path="*" element={<Loading />} />
                 </Route>
               </Routes>
             </BrowserRouter>
