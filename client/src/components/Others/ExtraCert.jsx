@@ -70,21 +70,6 @@ const ExtraCert = ({ AllCert, sendEmail, handleActiveLink }) => {
     });
   };
 
-  const imageprint = (cname) => {
-    const input = document.getElementById("innerdiv");
-    html2canvas(input, {
-      useCORS: true,
-      allowTaint: true,
-      scrollY: -window.scrollY,
-      logging: true,
-      letterRendering: 1,
-    }).then((canvas) => {
-      const a = document.createElement("a");
-      a.href = canvas.toDataURL("image/png", 1.0);
-      a.download = cname + "'s_certificate.png";
-      a.click();
-    });
-  };
   if (!mounted) {
     QRCode.toDataURL(
       url,
@@ -115,61 +100,19 @@ const ExtraCert = ({ AllCert, sendEmail, handleActiveLink }) => {
         <>
           <div id="printcertificate">
             <div id="flex-section">
-              <div id="innerdiv">
+              <div id="innerdiv" width="900" height="600">
                 <div id="template">
-                  <img class="image_template" src={bgImage} alt="" />
+                  <img
+                    id="canvas_cert"
+                    src={"https://alchemy.mypinata.cloud/ipfs/" + cert.Ihash}
+                    alt=""
+                    width="900"
+                    height={"600"}
+                  />
                 </div>
-                <div id="clg-name">
+                {/* <div id="clg-name">
                   <h1>Dwarkadas J. Sanghvi College Of Engineering</h1>
-                </div>
-                <div id="recognition-text">
-                  <h1>CERTIFICATE</h1>
-                  <h3>OF GRADUATION</h3>
-                </div>
-                <div id="passoutyear-div">
-                  <h1>VERIFIED</h1>
-                  {/* <h1>{cert.passoutYear.toNumber()}</h1> */}
-                </div>
-                <div id="normal-text">
-                  <h1>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aliquam cursus tempus, quam viverra sit augue faucibus.
-                    Lobortis felis facilisis tortor mol.
-                  </h1>
-                </div>
-                <div className="sign-div">
-                  <div className="sign-name">
-                    <h1>Hari Vasudevan</h1>
-                    <hr />
-                    <h3>Principal</h3>
-                  </div>
-                  <div className="sign-name">
-                    <h1>Meera Godse</h1>
-                    <hr />
-                    <h3>Vice Principal</h3>
-                  </div>
-                </div>
-                <div className="last-div">
-                  <div className="sign-name">
-                    {qr && (
-                      <>
-                        <img width={60} height={60} src={qr} alt="Qr Code" />
-                      </>
-                    )}
-                  </div>
-                  <div className="sign-name">
-                    <h3>Issue date</h3>
-                    <h4>{cert.issueDate}</h4>
-                  </div>
-                </div>
-
-                <div id="text-name">
-                  <h1>{cert.name}</h1>
-                </div>
-                <div className="cert-hash">
-                  <h3>Certificate ID: </h3>
-                  <h4> {cert.transactionHash}</h4>
-                </div>
+                </div> */}
               </div>
               <div id="download-section">
                 <h1>Issued by</h1>
@@ -181,15 +124,15 @@ const ExtraCert = ({ AllCert, sendEmail, handleActiveLink }) => {
                 <h3>Download</h3>
                 <div class="download-btns">
                   <div class="btn2">
-                    <button
-                      id="image-btn"
-                      class="image-btn"
-                      onClick={() => imageprint(cert.name)}
+                    <a
+                      href={"https://alchemy.mypinata.cloud/ipfs/" + cert.Ihash}
                     >
-                      As Image
-                      <img id="photo-svg" src={photo} alt="" />
-                      <img id="photo-svg" src={download} alt="" />
-                    </button>
+                      <button id="image-btn" class="image-btn">
+                        As Image
+                        <img id="photo-svg" src={photo} alt="" />
+                        <img id="photo-svg" src={download} alt="" />
+                      </button>
+                    </a>
                     <button
                       class="pdf-btn"
                       id="image-btn"
@@ -217,7 +160,8 @@ const ExtraCert = ({ AllCert, sendEmail, handleActiveLink }) => {
                         sendEmail(
                           cert.name,
                           cert.email,
-                          "http://localhost:3000/certificate/" + cert.transactionHash,
+                          "http://localhost:3000/certificate/" +
+                            cert.transactionHash,
                           cert.course
                         )
                       }
