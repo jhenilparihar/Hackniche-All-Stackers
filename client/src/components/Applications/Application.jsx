@@ -139,6 +139,7 @@ class Application extends Component {
             <Table
             //   allCert={this.props.allCert}
               addExtraCert={this.props.addExtraCert}
+              bonafiedExist={this.props.bonafiedExist}
             />
 
             <div className="pagination-div">

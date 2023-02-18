@@ -45,6 +45,7 @@ contract Ecertify {
         uint256 SAP;
         string certType;
         string issueDate;
+        string Ihash;
     }
 
     // map Certificates's id to Certificate
@@ -69,6 +70,8 @@ contract Ecertify {
     mapping(string => bool) public certficateHashExist;
 
     mapping(uint256 => bool) public sapIdExist;
+
+    mapping(string => bool) public BonafiedHashExist;
 
     function addCertificate(
         string memory _name,
@@ -102,13 +105,24 @@ contract Ecertify {
         sapIdExist[_SAP] = true;
     }
 
+
+function BonafiedHashUpdate(
+        string memory _Ihash
+    ) external {
+        
+        BonafiedHashExist[_Ihash] = true;
+    }
+
+
+
 function addExtraCertificate(
         string memory _name,
         string memory _course,
         string memory _email,
         uint256 _SAP,
         string memory _type,
-        string memory _issueDate
+        string memory _issueDate,
+        string memory _Ihash
     ) external {
         extracertificateCounter++;
         // require(!_exists(certificateCounter));
@@ -123,12 +137,14 @@ function addExtraCertificate(
             _email,
             _SAP,
             _type,
-            _issueDate
+            _issueDate,
+            _Ihash
         );
         // add the id and it's certificate to allCertificate mapping
         allExtraCertificates[extracertificateCounter] = newCert;
 
         sapIdExist[_SAP] = true;
+        BonafiedHashExist[_Ihash] = true;
     }
 
     function updateExtraTransaction(string memory _transactionHash) external {

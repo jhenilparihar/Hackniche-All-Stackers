@@ -271,6 +271,14 @@ class App extends Component {
 
     return exi;
   };
+  
+  bonafiedExist = async (hash) => {
+    const res = await this.state.EcertoContract.methods
+      .BonafiedHashExist(hash)
+      .call();
+
+    return res;
+  };
 
   handleActiveLink = (id) => {
     if (this.state.isAdmin) {
@@ -294,11 +302,11 @@ class App extends Component {
   // uint256 _SAP,
   // string memory _reason,
   // string memory _type
-  addExtraCert = async (name, course, email, sap, type) => {
+  addExtraCert = async (name, course, email, sap, type,Ihash) => {
     const issueDate = await this.getCuurentDate();
-    console.log(name, course, email, sap, type,issueDate);
+    console.log(name, course, email, sap, type,issueDate,Ihash);
     this.state.EcertoContract.methods
-      .addExtraCertificate(name, course, email, sap, type,issueDate)
+      .addExtraCertificate(name, course, email, sap, type,issueDate,Ihash)
       .send({ from: this.state.accountAddress })
       .on("confirmation", () => {
         localStorage.setItem(this.state.accountAddress, new Date().getTime());
@@ -374,7 +382,10 @@ class App extends Component {
                       <Route
                         path="/applications"
                         element={
-                          <Application addExtraCert={this.addExtraCert} />
+                          <Application 
+                          addExtraCert={this.addExtraCert} 
+                          bonafiedExist={this.bonafiedExist}
+                          />
                         }
                       />
                       <Route
