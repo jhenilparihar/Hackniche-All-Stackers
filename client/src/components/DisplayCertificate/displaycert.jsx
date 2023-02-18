@@ -31,11 +31,17 @@ const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
   console.log("hashvalue", hash);
   const shareUrl = "http://localhost:3000/certificate/" + hash;
   let cert = null;
+  let i =0;
   AllCert.forEach((c) => {
     if (c.transactionHash === hash) {
       cert = c;
     }
   });
+  if (AllCert.length != 0 && i == AllCert.length) {
+    if (cert == null) {
+      cert = "none";
+    }
+  }
 
   const url = "http://localhost:3000/details/" + hash;
 
@@ -114,11 +120,11 @@ const DisplayCert = ({ AllCert, sendEmail, handleActiveLink }) => {
 
   return (
     <div className="root-div">
-      {cert == null ? (
+      {cert == 'none' ? (
         <CertificateNotExist />
       ) : (
         <>
-          {cert !== undefined ? (
+          {cert !== null ? (
             <>
               <div id="printcertificate">
                 <div id="flex-section">
