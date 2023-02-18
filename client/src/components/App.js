@@ -26,6 +26,7 @@ import Application from "./Applications/Application";
 import ExtraCert from "./Others/ExtraCert";
 import AllBonafied from "./Bonafied/AllBonafied";
 import BonafiedDetails from "./StudentDetails/BonafiedDetails";
+import UploadCertImage from "./UploadCertImage/UploadCertImage";
 
 class App extends Component {
   constructor(props) {
@@ -488,6 +489,12 @@ class App extends Component {
                         AllCert={this.state.ExtraCertificate}
                         handleActiveLink={this.handleActiveLink}
                       />
+                    }
+                  />
+                  <Route
+                    path={"verify-bonafide-image"}
+                    element={
+                      <UploadCertImage  />
                     }
                   />
                   <Route
