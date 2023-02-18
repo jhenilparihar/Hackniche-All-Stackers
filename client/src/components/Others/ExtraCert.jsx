@@ -100,7 +100,7 @@ const ExtraCert = ({ AllCert, sendEmail, handleActiveLink }) => {
         <>
           <div id="printcertificate">
             <div id="flex-section">
-              <div id="innerdiv" width="900" height="600">
+              <div id="innerdiv" width="900" height="600" style={{backgroundColor: "#ffffff"}}>
                 <div id="template">
                   <img
                     id="canvas_cert"
